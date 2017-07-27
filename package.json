@@ -1,0 +1,39 @@
+{
+  "name": "solmd",
+  "version": "0.0.1",
+  "description": "Markdown documentation generator for Solidity",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "rm -rf lib/* && ./node_modules/.bin/babel src -w -d lib && chmod +x lib/bin/solmd.js",
+    "compile": "rm -rf lib/* && ./node_modules/.bin/babel src -d lib && chmod +x lib/bin/solmd.js",
+    "prepublish": "npm run compile"
+  },
+  "keywords": [
+    "solidity",
+    "documentation",
+    "markdown",
+    "generator",
+    "natspec"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DigixGlobal/doxidity.git"
+  },
+  "author": "Dane Pilcher <danepilch@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.1.0"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
