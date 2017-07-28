@@ -2,7 +2,6 @@ import parseAbi from './parse-abi';
 import solc from './solc';
 
 function compile({ contracts }) {
-  process.stdout.write(`Generating output for ${Object.keys(contracts).length} contracts...\n`);
   const data = [];
   Object.keys(contracts).forEach((contractName) => {
     const contract = contracts[contractName];
