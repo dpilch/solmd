@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import minimist from 'minimist';
-import * as Doxity from '../index';
+import * as Solmd from '../index';
 
 const args = minimist(process.argv.slice(2));
 
@@ -10,7 +10,7 @@ const args = minimist(process.argv.slice(2));
 
 if (!args._[0]) {
   const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json')).toString());
-  console.log(`
+  process.stdout.write(`
 solmd v${version}
 
 Commands:
@@ -24,5 +24,5 @@ Parameters:
   `);
   process.exit();
 } else {
-  Doxity.default[args._[0]](args);
+  Solmd.default[args._[0]](args);
 }

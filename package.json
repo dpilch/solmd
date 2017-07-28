@@ -4,9 +4,14 @@
   "description": "Markdown documentation generator for Solidity",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "rm -rf lib/* && ./node_modules/.bin/babel src -w -d lib && chmod +x lib/bin/solmd.js",
+    "dev": "./node_modules/.bin/babel src -w -d lib",
     "compile": "rm -rf lib/* && ./node_modules/.bin/babel src -d lib && chmod +x lib/bin/solmd.js",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile",
+    "lint": "./node_modules/.bin/eslint src/",
+    "precommit": "npm run lint"
+  },
+  "bin": {
+    "solmd": "./lib/bin/solmd.js"
   },
   "keywords": [
     "solidity",
@@ -17,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/DigixGlobal/doxidity.git"
+    "url": "https://github.com/dpilch/solmd.git"
   },
   "author": "Dane Pilcher <danepilch@gmail.com>",
   "license": "ISC",
@@ -31,9 +36,17 @@
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.1.0"
+    "eslint-plugin-react": "^7.1.0",
+    "pre-commit": "^1.2.2"
   },
   "dependencies": {
-    "minimist": "^1.2.0"
-  }
+    "glob": "^7.1.2",
+    "keccakjs": "^0.2.1",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.1"
+  },
+  "pre-commit": [
+    "lint"
+  ]
 }
