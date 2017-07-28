@@ -1,4 +1,9 @@
-export default `
+import doT from 'dot';
+
+const template = `
+# {{=it.name}}
+
+{{~it.abiDocs :docItem:index}}
 ## {{=docItem.name}}
 
 {{=docItem.notice}}
@@ -14,4 +19,9 @@ Outputs
 | | | |
 |-|-|-|{{~docItem.outputs :output}}
 | {{=output.type}} | {{=output.name}} | {{=output.description}} |{{~}}
+{{~}}
 `;
+
+doT.templateSettings.strip = false;
+
+export default doT.template(template);
