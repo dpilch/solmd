@@ -2,7 +2,8 @@ import doT from 'dot';
 
 const template = `
 # {{=it.name}}
-
+{{? it.author }}
+{{=it.author}}{{?}}
 {{~it.abiDocs :docItem:index}}{{? docItem.type === 'function'}}
 ## {{=docItem.type}} {{=docItem.name}} \`{{=docItem.signatureHash}}\`
 {{?docItem.notice}}
