@@ -1,6 +1,6 @@
 {
   "name": "solmd",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Markdown documentation generator for Solidity",
   "main": "lib/index.js",
   "scripts": {
