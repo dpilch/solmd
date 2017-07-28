@@ -6,19 +6,19 @@ import * as Solmd from '../index';
 
 const args = minimist(process.argv.slice(2));
 
-// get json version
-
-if (!args._[0]) {
+if (typeof args.help !== 'undefined') {
   const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json')).toString());
-  process.stdout.write(`
-solmd v${version}
+  process.stdout.write(`solmd v${version}
 
-Parameters:
+usage: solmd [--src <solidity>] [--dest <target>]
+
+parameters:
 
 --src      Folder that contains the contracts you want to compile
 --dest     Destination of markdown output
+
   `);
   process.exit();
 } else {
-  Solmd.default[args._[0]](args);
+  Solmd.default.build(args);
 }
