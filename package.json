@@ -1,12 +1,12 @@
 {
   "name": "solmd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Markdown documentation generator for Solidity",
   "main": "lib/index.js",
   "scripts": {
     "dev": "./node_modules/.bin/babel src -w -d lib",
     "compile": "rm -rf lib/* && ./node_modules/.bin/babel src -d lib && chmod +x lib/bin/solmd.js",
-    "prepare": "npm run compile",
+    "prepublish": "npm run compile",
     "lint": "./node_modules/.bin/eslint src/",
     "precommit": "npm run lint"
   },
@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "dot": "^1.1.2",
-    "glob": "^7.1.2",
     "keccakjs": "^0.2.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
