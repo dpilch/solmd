@@ -13,14 +13,10 @@ if (!args._[0]) {
   process.stdout.write(`
 solmd v${version}
 
-Commands:
-
-
-
 Parameters:
 
 --src      Folder that contains the contracts you want to compile
---out      Folder to output the generated html (relative to project root)
+--dest     Destination of markdown output
   `);
   process.exit();
 } else {

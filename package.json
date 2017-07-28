@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "./node_modules/.bin/babel src -w -d lib",
     "compile": "rm -rf lib/* && ./node_modules/.bin/babel src -d lib && chmod +x lib/bin/solmd.js",
-    "prepublish": "npm run compile",
+    "prepare": "npm run compile",
     "lint": "./node_modules/.bin/eslint src/",
     "precommit": "npm run lint"
   },
@@ -40,6 +40,7 @@
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
+    "dot": "^1.1.2",
     "glob": "^7.1.2",
     "keccakjs": "^0.2.1",
     "minimist": "^1.2.0",
