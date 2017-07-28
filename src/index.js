@@ -1,29 +1,19 @@
-import {
-  DEFAULT_SRC_DIR,
-  DEFAULT_TARGET,
-  DEFAULT_TMP_DIR,
-} from './constants';
-
-import compile from './compile';
-import markdown from './markdown';
+import DEFAULT_DEST from './constants';
 import build from './build';
 
 const methods = {
-  compile,
-  markdown,
   build,
 };
 
 function populateArguments(passed) {
-  delete passed._; // eslint-disable-line no-param-reassign
+  const modified = passed;
+  modified._ = modified._.join(' ');
 
   const defaults = {
-    target: DEFAULT_TARGET,
-    src: DEFAULT_SRC_DIR,
-    tmp: DEFAULT_TMP_DIR,
+    dest: DEFAULT_DEST,
   };
 
-  return { ...defaults, ...passed };
+  return { ...defaults, ...modified };
 }
 
 const wrappedMethods = {};

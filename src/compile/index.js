@@ -22,7 +22,7 @@ function compile({ contracts }) {
 
 
 export default function (opts) {
-  return solc(opts.src).then(({ contracts }) => (
+  return solc(opts._).then(({ contracts }) => (
     compile({ ...opts, contracts })
   ));
 }
