@@ -5,10 +5,9 @@ const template = `
 {{? it.author }}
 {{=it.author}}{{?}}
 {{~it.abiDocs :docItem:index}}{{? docItem.type === 'function'}}
-## {{=docItem.type}} {{=docItem.name}}
+## *{{=docItem.type}}* {{=docItem.name}}
 
-\`{{=docItem.signatureHash}}\` {{?docItem.payable}}\`payable\`
-{{?}}
+{{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}){{?docItem.payable}}\`payable\`{{?}} \`{{=docItem.signatureHash}}\`
 {{?docItem.notice}}
 **{{=docItem.notice}}**
 {{?}}
