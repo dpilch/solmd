@@ -7,7 +7,7 @@ const template = `
 {{~it.abiDocs :docItem:index}}{{? docItem.type === 'function'}}
 ## *{{=docItem.type}}* {{=docItem.name}}
 
-{{=it.name}}.{{=docItem.name}}({{~docItem.inputs :input}}{{=input.name}}, {{~}}){{?docItem.payable}}\`payable\`{{?}} \`{{=docItem.signatureHash}}\`
+{{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}){{?docItem.payable}}\`payable\`{{?}} \`{{=docItem.signatureHash}}\`
 {{?docItem.notice}}
 **{{=docItem.notice}}**
 {{?}}
