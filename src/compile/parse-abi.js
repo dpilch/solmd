@@ -10,6 +10,7 @@ export default function (contract) {
     // map abi inputs to devdoc inputs
     const params = devDocs.params || {};
     const inputs = inputParams.map(param => ({ ...param, description: params[param.name] }));
+    const argumentList = inputParams.reduce((inputString, param) => `${inputString}${param.name}, `, '').slice(0, -2);
     // don't write this
     delete devDocs.params;
 
@@ -31,6 +32,7 @@ export default function (contract) {
       ...devDocs,
       ...userDocs,
       inputs,
+      argumentList,
       outputs,
       signature,
       signatureHash: signature && getFunctionSignature(signature),
