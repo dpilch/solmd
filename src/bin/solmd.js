@@ -16,6 +16,7 @@ parameters:
 
 --src      Folder that contains the contracts you want to compile
 --dest     Destination of markdown output
+--no-toc   Do not generate table of contents, defaults false
 
   `);
   process.exit();

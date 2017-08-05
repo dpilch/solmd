@@ -1,4 +1,7 @@
-import DEFAULT_DEST from './constants';
+import {
+  DEFAULT_DEST,
+  DEFAULT_NO_TOC,
+} from './constants';
 import build from './build';
 
 const methods = {
@@ -11,6 +14,7 @@ function populateArguments(passed) {
 
   const defaults = {
     dest: DEFAULT_DEST,
+    'no-toc': DEFAULT_NO_TOC,
   };
 
   return { ...defaults, ...modified };
