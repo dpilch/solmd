@@ -2,11 +2,14 @@
   "name": "solmd",
   "version": "0.1.2",
   "description": "Markdown documentation generator for Solidity",
+  "engines": {
+    "node": ">=4"
+  },
   "main": "lib/index.js",
   "scripts": {
     "dev": "./node_modules/.bin/babel src -w -d lib",
     "compile": "rm -rf lib/* && ./node_modules/.bin/babel src -d lib",
-    "prepublish": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "lint": "./node_modules/.bin/eslint src/",
     "precommit": "npm run lint"
   },
@@ -35,7 +38,7 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "pre-commit": "^1.2.2"
   },

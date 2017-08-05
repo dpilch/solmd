@@ -2,6 +2,8 @@
 
 Generate lightweight markdown documentation for Solidity contracts.
 
+[![Build Status](https://travis-ci.org/dpilch/solmd.svg?branch=master)](https://travis-ci.org/dpilch/solmd)
+
 ## Installation
 
 ```
