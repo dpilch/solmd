@@ -3,7 +3,8 @@ import childProcess from 'child_process';
 export default function (src) {
   return new Promise((resolve) => {
     const exec = `solc --combined-json abi,asm,ast,bin,bin-runtime,clone-bin,devdoc,interface,opcodes,srcmap,srcmap-runtime,userdoc ${src}`;
-    const res = JSON.parse(childProcess.execSync(exec));
+    const rawRes = childProcess.execSync(exec);
+    const res = JSON.parse(rawRes);
     resolve({
       contracts: Object.keys(res.contracts).reduce((o, k) => {
         const file = k.split(':')[0];

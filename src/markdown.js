@@ -3,9 +3,17 @@ import fs from 'fs';
 import template from './template';
 
 export default function ({ args, data }) {
-  // write to dest stream
-  const writeStream = fs.createWriteStream(args.dest, { flags: 'w' });
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    // write to dest stream
+    let writeStream;
+    try {
+      writeStream = fs.createWriteStream(args.dest, { flags: 'w' });
+    } catch (err) {
+      reject(err);
+    }
+    writeStream.on('error', (err) => {
+      reject(err);
+    });
     // build the table of contents
     if (args.notoc) {
       data.forEach((contract) => {
@@ -26,6 +34,7 @@ export default function ({ args, data }) {
       writeStream.write(md);
     });
 
-    resolve(writeStream.end());
+    writeStream.end();
+    resolve();
   });
 }
