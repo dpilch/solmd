@@ -1,3 +1,4 @@
+import fs from 'fs';
 import parseAbi from './parse-abi';
 import solc from './solc';
 
@@ -20,9 +21,20 @@ function compile({ contracts }) {
   return data;
 }
 
-
 export default function (opts) {
-  return solc(opts._).then(({ contracts }) => (
-    compile({ ...opts, contracts })
-  ));
+  opts._.split(' ').forEach((file) => {
+    if (!fs.existsSync(file)) {
+      process.stderr.write(`${file}: No such file or directory
+`);
+      process.exit(1);
+    }
+  });
+  return solc(opts._)
+    .then(({ contracts }) => (
+      compile({ ...opts, contracts })
+    ))
+    .catch(() => {
+      console.error(`solmd: Failed to compile contracts at ${opts._}`); // eslint-disable-line no-console
+      process.exit(1);
+    });
 }

@@ -2,6 +2,8 @@
 
 Generate lightweight markdown documentation for Solidity contracts.
 
+[![Build Status](https://travis-ci.org/dpilch/solmd.svg?branch=master)](https://travis-ci.org/dpilch/solmd)
+
 ## Installation
 
 ```
@@ -31,15 +33,21 @@ contract GavCoin {
     @dev This should be the documentation of the function for the developer docs
     @param to The address of the recipient of the GavCoin
     @param valueInmGAV The GavCoin value to send
+    @return {
+        "done": "if done"
+    }
     */
-    function send(address to, uint256 valueInmGAV) {
+    function send(address to, uint256 valueInmGAV) returns (bool done) {
         if (balances[msg.sender] >= valueInmGAV) {
             balances[to] += valueInmGAV;
             balances[msg.sender] -= valueInmGAV;
+            done = true;
         }
     }
 }
 ```
+
+Return params must be a single `@param` formatted as an object as shown above.
 
 The above example will produce the following result as raw markdown.
 
@@ -51,9 +59,9 @@ The above example will produce the following result as raw markdown.
 
 Gavin Wood
 
-## function send
+## *function* send
 
-`d0679d34`
+GavCoin.Send(to, valueInmGAV) `d0679d34`
 
 **Send `(valueInmGAV / 1000).fixed(0,3)` GAV from the account of `message.caller.address()`, to an account accessible only by `to.address()**
 
@@ -65,6 +73,12 @@ Inputs
 |-|-|-|
 | *address* | to | The address of the recipient of the GavCoin |
 | *uint256* | valueInmGAV | The GavCoin value to send |
+
+Outputs
+
+| | | |
+|-|-|-|
+| *bool* | done | if done |
 
 ---
 ```

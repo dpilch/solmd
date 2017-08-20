@@ -22,7 +22,7 @@ const template = `
 
 | | | |
 |-|-|-|{{~docItem.outputs :output}}
-| {{=output.type}} | {{=output.name}} | {{=output.description}} |{{~}}{{?}}{{?}}
+| *{{=output.type}}* | {{=output.name}} | {{=output.description}} |{{~}}{{?}}{{?}}
 {{~}}
 ---`;
 

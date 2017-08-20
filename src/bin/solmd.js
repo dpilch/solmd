@@ -16,9 +16,14 @@ parameters:
 
 --src      Folder that contains the contracts you want to compile
 --dest     Destination of markdown output
+--no-toc   Do not generate table of contents, defaults false
 
   `);
   process.exit();
 } else {
-  Solmd.default.build(args);
+  Solmd.default.build(args)
+    .catch((err) => {
+      console.error(err); // eslint-disable-line no-console
+      process.exit(1);
+    });
 }
