@@ -1,8 +1,19 @@
 language: node_js
-
 node_js:
-    - "4"
-
+- '4'
 cache:
   directories:
-    - node_modules
+  - node_modules
+before_script:
+  - "sudo add-apt-repository ppa:ethereum/ethereum"
+  - "sudo apt-get update"
+  - "sudo apt-get install solc"
+
+deploy:
+  provider: npm
+  email: danepilch@gmail.com
+  api_key:
+    secure: QBcfNa5MXhPTGv9pnqpcex4jD0mb5UtLUrXyDLNU1cKLEU6nQ+XDqoHrrplGWCbMbc+LjTLOX7z9vzwaeSJxGDno6CmNvMo358uiwWv9Kh+CV4521/VOJuzNXs7xGsVuMOJdFvOtp0oY0+R1T27ddW9mxEeGadAjfUOLYiopA3eyYHk38b6sKUyL2fn4Pq277P4F5EXzHNzYZxnzNGlhafxrTgB1dVRxjS/Gt7OD7SL7eqzTyr20GRH4LSxFzkERDlVUxA/W07NftnsbYaY8SNdg5YsrZxZPaPFD1XtZgCF1IN8+248VytcQnriQMgQ2vKua0XM2UfGp5sci6CEZkIWtu4n9GnpjNS9EOYOKAuHbqJTXbkV1vHKWzZJPpF5KtjJU1h1sGzmcA5ax+Wze3YI8+9tNZ16NDATGw+iXKEAhpLR6+66O/OSum4Ez9GFcLDtHAL7wttkVdHZrpsOL5qGkGodcmh8qKrKqHNKAHkfnIeaROIPv+ZAyVVh3DXw9lrqZOMfq1hL3ahrdHfQipOUZlzWUZFBxiTdCUdnuiNL7NTfRdnCWNH//PfyTVGqbbxqC2ru40FwWNM7bzBVrVWu1QbexKvGBfjhJHXlDW9MO/KEuiInCFsDJKga3lbjDwxSSaHWnlKqPfnHqoGV4Z1moomPPakc5tQtz8nnA1OE=
+  on:
+    tags: true
+    branch: master
