@@ -6,7 +6,7 @@ cache:
   - node_modules
 before_script:
   - "sudo add-apt-repository ppa:ethereum/ethereum -y"
-  - "sudo apt-get update -y"
+  - "sudo apt-get update"
   - "sudo apt-get install solc -y"
 
 deploy:
