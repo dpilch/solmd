@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "$(npm bin)/babel src -w -d lib",
     "test": "$(npm bin)/mocha",
-    "compile": "rm -rf lib/* && $(npm bin)/babel src -d lib",
-    "prepublishOnly": "npm run compile",
+    "build": "rm -rf lib/* && $(npm bin)/babel src -d lib",
+    "prepublishOnly": "npm run build",
     "lint": "$(npm bin)/eslint src/ test/",
     "precommit": "./node_modules/pre-commit/hook"
   },

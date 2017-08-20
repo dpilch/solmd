@@ -1,7 +1,3 @@
 *~
 node_modules
-lib
-/contracts
-.solmd
 sol.md
-test/output.md
