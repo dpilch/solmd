@@ -7,12 +7,12 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "dev": "./node_modules/.bin/babel src -w -d lib",
-    "test": "./node_modules/.bin/mocha",
-    "compile": "rm -rf lib/* && ./node_modules/.bin/babel src -d lib",
+    "dev": "$(npm bin)/babel src -w -d lib",
+    "test": "$(npm bin)/mocha",
+    "compile": "rm -rf lib/* && $(npm bin)/babel src -d lib",
     "prepublishOnly": "npm run compile",
-    "lint": "./node_modules/.bin/eslint src/",
-    "precommit": "npm run lint && npm run test"
+    "lint": "$(npm bin)/eslint src/ test/",
+    "precommit": "./node_modules/pre-commit/hook"
   },
   "bin": {
     "solmd": "./lib/bin/solmd.js"

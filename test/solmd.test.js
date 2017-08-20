@@ -11,7 +11,6 @@ describe('solmd', () => {
     return Solmd.default.build(args)
       .then(() => fs.readFileSync('./test/output.md', 'utf8'))
       .then((res) => {
-        console.log(res);
         assert.equal(res, expected.GavCoin, 'did not produce the correct output');
       });
   });
