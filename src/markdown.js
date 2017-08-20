@@ -14,6 +14,9 @@ export default function ({ args, data }) {
     writeStream.on('error', (err) => {
       reject(err);
     });
+    writeStream.on('finish', () => {
+      resolve();
+    });
     // build the table of contents
     if (args.notoc) {
       data.forEach((contract) => {
@@ -35,6 +38,5 @@ export default function ({ args, data }) {
     });
 
     writeStream.end();
-    resolve();
   });
 }
