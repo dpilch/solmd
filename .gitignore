@@ -1,6 +1,7 @@
 *~
 node_modules
 lib
-contracts
+/contracts
 .solmd
 sol.md
+test/output.md
