@@ -27,4 +27,18 @@ contract GavCoin {
             balances[msg.sender] -= valueInmGAV;
         }
     }
+
+    /**
+    @notice change owner
+    @dev dev
+    @param _owner this is the owner
+    @return {
+        "previousOwner": "the previous owner"
+    }
+    */
+    function setOwner(address _owner) returns (address previousOwner) {
+        previousOwner = owner;
+        owner = _owner;
+        return previousOwner;
+    }
 }

@@ -13,10 +13,14 @@ export default function (contract) {
     // don't write this
     delete devDocs.params;
 
-    let outputs;
+    let outputs = [];
     try {
-      const outputParams = JSON.parse(devDocs.return);
-      outputs = method.outputs.map(param => ({ ...param, description: outputParams[param.name] }));
+      if (typeof devDocs.return !== 'undefined') {
+        const outputParams = JSON.parse(devDocs.return);
+        outputs = method.outputs.map(param => (
+          { ...param, description: outputParams[param.name] }
+        ));
+      }
     } catch (e) {
       process.stderr.write(`warning: invalid @return for ${method.name} - output may be effected\n`);
       outputs = method.outputs;

@@ -18,7 +18,8 @@ const template = `
 | | | |
 |-|-|-|{{~docItem.inputs :input}}
 | *{{=input.type}}* | {{=input.name}} | {{=input.description}} |{{~}}{{?}}
-{{? docItem.outputs.length > 0 }}Outputs
+{{? docItem.outputs.length > 0 }}
+Outputs
 
 | | | |
 |-|-|-|{{~docItem.outputs :output}}

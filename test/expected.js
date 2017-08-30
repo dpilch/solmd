@@ -3,6 +3,26 @@ const GavCoin = `
 
 Gavin Wood
 
+## *function* setOwner
+
+GavCoin.setOwner(_owner) \`13af4035\`
+
+**change owner**
+
+> dev
+
+Inputs
+
+| | | |
+|-|-|-|
+| *address* | _owner | this is the owner |
+
+Outputs
+
+| | | |
+|-|-|-|
+| *address* | previousOwner | the previous owner |
+
 ## *function* balances
 
 GavCoin.balances() \`27e235e3\`
@@ -13,11 +33,7 @@ Inputs
 | | | |
 |-|-|-|
 | *address* |  | undefined |
-Outputs
 
-| | | |
-|-|-|-|
-| *uint256* |  | undefined |
 
 ## *function* send
 
