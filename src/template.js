@@ -4,7 +4,16 @@ const template = `
 # {{=it.name}}
 {{? it.author }}
 {{=it.author}}{{?}}
-{{~it.abiDocs :docItem:index}}{{? docItem.type === 'function'}}
+{{~it.abiDocs :docItem:index}}{{? docItem.type === 'event'}}## *{{=docItem.type}}* {{=docItem.name}}
+
+{{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}) {{?docItem.anonymous}}\`anonymous\` {{?}}\`{{=docItem.signatureHash}}\`
+
+{{? docItem.inputs.length > 0 }}Arguments
+
+| | | |
+|-|-|-|{{~docItem.inputs :argument}}
+| *{{=argument.type}}* | {{=argument.name}} | {{? argument.indexed === false}}not {{?}}indexed |{{~}}{{?}}
+{{?}}{{? docItem.type === 'function'}}
 ## *{{=docItem.type}}* {{=docItem.name}}
 
 {{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}) \`{{=docItem.stateMutability}}\` \`{{=docItem.signatureHash}}\`
