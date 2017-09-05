@@ -1,9 +1,4 @@
-const GavCoin = `* [GavCoin](#gavcoin)
-  * [mint](#function-mint)
-  * [setOwner](#function-setowner)
-  * [balances](#function-balances)
-  * [send](#function-send)
-
+const GavCoin = `
 # GavCoin
 
 Gavin Wood

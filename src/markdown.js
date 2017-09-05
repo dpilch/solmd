@@ -18,7 +18,7 @@ export default function ({ args, data }) {
       resolve();
     });
     // build the table of contents
-    if (args.notoc) {
+    if (!args.notoc) {
       data.forEach((contract) => {
         // contract name
         writeStream.write(`* [${contract.name}](#${contract.name.toLowerCase()})\n`);
