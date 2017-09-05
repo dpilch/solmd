@@ -1,4 +1,4 @@
-import { getFunctionSignature } from '../helpers';
+import getFunctionSignature from '../helpers';
 
 export default function (contract) {
   return contract.abi.map((method) => {

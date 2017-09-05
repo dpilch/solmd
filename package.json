@@ -45,9 +45,7 @@
   "dependencies": {
     "dot": "^1.1.2",
     "keccakjs": "^0.2.1",
-    "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1",
-    "rimraf": "^2.6.1"
+    "minimist": "^1.2.0"
   },
   "pre-commit": [
     "lint",
