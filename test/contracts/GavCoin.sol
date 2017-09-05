@@ -9,6 +9,7 @@ pragma solidity ^0.4.13;
 contract GavCoin {
     mapping (address => uint256) public balances;
     address owner;
+    uint exchangeRate;
 
     function GavCoin() {
         owner = msg.sender;
@@ -40,5 +41,14 @@ contract GavCoin {
         previousOwner = owner;
         owner = _owner;
         return previousOwner;
+    }
+
+    /**
+    @notice create new gav coins
+    @dev use this funciton to create new gavcoins from Ether
+    */
+    function mint() payable {
+        require(msg.value > 0);
+        balances[msg.sender] += (msg.value * exchangeRate);
     }
 }
