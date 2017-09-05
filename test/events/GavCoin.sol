@@ -9,10 +9,18 @@ pragma solidity ^0.4.13;
 contract GavCoin {
     mapping (address => uint256) public balances;
     address owner;
+    uint exchangeRate;
 
     function GavCoin() {
         owner = msg.sender;
     }
+
+    /**
+    @notice Event on owner change
+    @param newOwner The address of the recipient of the GavCoin
+    @param previousOwner The GavCoin value to send
+    */
+    event OwnerChanged(address newOwner, address previousOwner);
 
     /**
     @notice Send `(valueInmGAV / 1000).fixed(0,3)` GAV from the account of
@@ -39,6 +47,16 @@ contract GavCoin {
     function setOwner(address _owner) returns (address previousOwner) {
         previousOwner = owner;
         owner = _owner;
+        OwnerChanged(owner, previousOwner);
         return previousOwner;
+    }
+
+    /**
+    @notice create new gav coins
+    @dev use this funciton to create new gavcoins from Ether
+    */
+    function mint() payable {
+        require(msg.value > 0);
+        balances[msg.sender] += (msg.value * exchangeRate);
     }
 }

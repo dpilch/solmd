@@ -1,6 +1,6 @@
 {
   "name": "solmd",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Markdown documentation generator for Solidity",
   "engines": {
     "node": ">=4"
@@ -45,9 +45,7 @@
   "dependencies": {
     "dot": "^1.1.2",
     "keccakjs": "^0.2.1",
-    "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1",
-    "rimraf": "^2.6.1"
+    "minimist": "^1.2.0"
   },
   "pre-commit": [
     "lint",
