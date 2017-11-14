@@ -11,7 +11,7 @@ contract GavCoin {
     address owner;
     uint exchangeRate;
 
-    function GavCoin() {
+    function GavCoin() public {
         owner = msg.sender;
     }
 
@@ -22,7 +22,7 @@ contract GavCoin {
     @param to The address of the recipient of the GavCoin
     @param valueInmGAV The GavCoin value to send
     */
-    function send(address to, uint256 valueInmGAV) {
+    function send(address to, uint256 valueInmGAV) public {
         if (balances[msg.sender] >= valueInmGAV) {
             balances[to] += valueInmGAV;
             balances[msg.sender] -= valueInmGAV;
@@ -37,7 +37,7 @@ contract GavCoin {
         "previousOwner": "the previous owner"
     }
     */
-    function setOwner(address _owner) returns (address previousOwner) {
+    function setOwner(address _owner) public returns (address previousOwner) {
         previousOwner = owner;
         owner = _owner;
         return previousOwner;
@@ -47,7 +47,7 @@ contract GavCoin {
     @notice create new gav coins
     @dev use this funciton to create new gavcoins from Ether
     */
-    function mint() payable {
+    function mint() public payable {
         require(msg.value > 0);
         balances[msg.sender] += (msg.value * exchangeRate);
     }

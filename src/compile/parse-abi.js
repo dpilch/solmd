@@ -23,7 +23,7 @@ export default function (contract) {
       }
     } catch (e) {
       process.stderr.write(`warning: invalid @return for ${method.name} - output may be effected\n`);
-      outputs = method.outputs;
+      outputs = method.outputs; // eslint-disable-line prefer-destructuring
     }
 
     return {
