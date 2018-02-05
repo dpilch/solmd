@@ -1,42 +1,45 @@
-import doT from 'dot';
+function formatTable(argList) {
+  const columns = [
+    ['type', t => `*${t}*`],
+    ['name'],
+    ['description'],
+    ['indexed', i => `${i ? '' : 'not '}indexed`],
+  ].filter(([col]) => argList.some(obj => obj[col] != null && obj[col] !== ''));
+  if (columns.length > 0) {
+    //         return `| ${ columns.map(([col]) => `**${ col }**`).join(' | ') } |
+    // |${ columns.map(([col]) => '-').join('|') }|
+    return `${argList.map(obj => `| ${columns.map(([col, fmt]) => (fmt ? fmt(obj[col]) : obj[col])).join(' | ')} |`).join('\n')}`;
+  }
+  return '';
+}
 
-const template = `
-# {{=it.name}}
-{{? it.author }}
-{{=it.author}}{{?}}
-{{~it.abiDocs :docItem:index}}{{? docItem.type === 'event'}}## *{{=docItem.type}}* {{=docItem.name}}
+const template = it => `
+# ${it.name}
 
-{{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}) {{?docItem.anonymous}}\`anonymous\` {{?}}\`{{=docItem.signatureHash}}\`
+${it.author ? `${it.author}
 
-{{? docItem.inputs.length > 0 }}Arguments
+` : ''}${it.abiDocs.map(docItem => (docItem.type === 'event' || docItem.type === 'function' ?
+  `## *${docItem.type}* ${docItem.name}
 
-| **type** | **name** | **description** |
-|-|-|-|{{~docItem.inputs :argument}}
-| *{{=argument.type}}* | {{=argument.name}} | {{? argument.indexed === false}}not {{?}}indexed |{{~}}{{?}}
-{{?}}{{? docItem.type === 'function'}}
-## *{{=docItem.type}}* {{=docItem.name}}
+${[
+    `${it.name}.${docItem.name}(${docItem.argumentList})`,
+    docItem.anonymous ? '`anonymous`' : null,
+    docItem.stateMutability ? `\`${docItem.stateMutability}\`` : null,
+    docItem.signatureHash ? `\`${docItem.signatureHash}\`` : null,
+  ].filter(v => v != null).join(' ')}
 
-{{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}) \`{{=docItem.stateMutability}}\` \`{{=docItem.signatureHash}}\`
-{{?docItem.notice}}
-**{{=docItem.notice}}**
-{{?}}
-{{?docItem.details}}> {{=docItem.details}}
-{{?}}
-{{? docItem.inputs.length > 0 }}Inputs
+${docItem.notice ? `**${docItem.notice}**
 
-| **type** | **name** | **description** |
-|-|-|-|{{~docItem.inputs :argument}}
-|-|-|-|{{~docItem.inputs :input}}
-| *{{=input.type}}* | {{=input.name}} | {{=input.description}} |{{~}}{{?}}
-{{? docItem.outputs.length > 0 }}
-Outputs
+` : ''}${docItem.details ? `> ${docItem.details}
 
-| **type** | **name** | **description** |
-|-|-|-|{{~docItem.outputs :output}}
-| *{{=output.type}}* | {{=output.name}} | {{=output.description}} |{{~}}{{?}}{{?}}
-{{~}}
----`;
+` : ''}${docItem.inputs.length > 0 ? `${docItem.type === 'event' ? 'Arguments' : 'Inputs'}
 
-doT.templateSettings.strip = false;
+${formatTable(docItem.inputs)}
 
-export default doT.template(template);
+` : ''}${docItem.outputs.length > 0 ? `Outputs
+
+${formatTable(docItem.outputs)}
+
+` : ''}` : '')).join('')}---`;
+
+export default template;

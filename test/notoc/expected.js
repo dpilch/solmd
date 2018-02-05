@@ -11,9 +11,6 @@ GavCoin.mint() \`payable\` \`1249c58b\`
 
 > use this funciton to create new gavcoins from Ether
 
-
-
-
 ## *function* setOwner
 
 GavCoin.setOwner(_owner) \`nonpayable\` \`13af4035\`
@@ -24,27 +21,19 @@ GavCoin.setOwner(_owner) \`nonpayable\` \`13af4035\`
 
 Inputs
 
-| | | |
-|-|-|-|
 | *address* | _owner | this is the owner |
 
 Outputs
 
-| | | |
-|-|-|-|
 | *address* | previousOwner | the previous owner |
 
 ## *function* balances
 
 GavCoin.balances() \`view\` \`27e235e3\`
 
-
 Inputs
 
-| | | |
-|-|-|-|
-| *address* |  | undefined |
-
+| *address* |
 
 ## *function* send
 
@@ -56,12 +45,8 @@ GavCoin.send(to, valueInmGAV) \`nonpayable\` \`d0679d34\`
 
 Inputs
 
-| | | |
-|-|-|-|
 | *address* | to | The address of the recipient of the GavCoin |
 | *uint256* | valueInmGAV | The GavCoin value to send |
-
-
 
 ---`;
 
