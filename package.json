@@ -43,7 +43,6 @@
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
-    "dot": "^1.1.2",
     "keccakjs": "^0.2.1",
     "minimist": "^1.2.0"
   },
