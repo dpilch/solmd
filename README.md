@@ -20,59 +20,47 @@ Output will default to `sol.md`;
 
 Uses [Ethereum Natural Specification Format](https://github.com/ethereum/wiki/wiki/Ethereum-Natural-Specification-Format) to generate method details.
 
-```sol
-pragma solidity ^0.4.13;
+```
+pragma solidity ^0.4.19;
 
+/// @title A simulator for Bug Bunny, the most famous Rabbit
+/// @author Warned Bros
+contract BugBunny {
 
-// natspec example
-/**
-@title GavCoin
-@author Gavin Wood
-*/
-contract GavCoin {
-    mapping (address => uint256) public balances;
-    address owner;
-    uint exchangeRate;
+    // tags on storage vars currently unsupported by devdocs
+    bytes32 public carrotHash;
 
-    function GavCoin() public {
-        owner = msg.sender;
+    // tags on events currently unsupported by devdocs
+    event Consumption(address indexed feeder, string food);
+
+    // tags on constructors currently unsupported by devdocs
+    function BugBunny(string carrot) public {
+        carrotHash = keccak256(carrot);
     }
 
-    /**
-    @notice Send `(valueInmGAV / 1000).fixed(0,3)` GAV from the account of
-    `message.caller.address()`, to an account accessible only by `to.address()
-    @dev This should be the documentation of the function for the developer docs
-    @param to The address of the recipient of the GavCoin
-    @param valueInmGAV The GavCoin value to send
-    */
-    function send(address to, uint256 valueInmGAV) public {
-        if (balances[msg.sender] >= valueInmGAV) {
-            balances[to] += valueInmGAV;
-            balances[msg.sender] -= valueInmGAV;
+    /// @author Bob Clampett
+    /// @notice Determine if Bug will accept `_food` to eat
+    /// @dev String comparison may be inefficient
+    /// @param _food The name of a food to evaluate (English)
+    /// @return true if Bug will eat it, false otherwise
+    function doesEat(string _food) public view returns (bool) {
+        return keccak256(_food) == carrotHash;
+    }
+
+    /// @author Funk Master
+    /// @notice Bug will eat `_food`
+    /// @dev Magic funk machine wow.
+    /// @param _food The name of a food to eat
+    /// @return {
+    ///    "eaten": "true if Bug will eat it, false otherwise",
+    ///    "hash": "hash of the food to eat"
+    /// }
+    function eat(string _food) external returns (bool eaten, bytes32 hash) {
+        eaten = doesEat(_food);
+        hash = keccak256(_food);
+        if(eaten) {
+            Consumption(msg.sender, _food);
         }
-    }
-
-    /**
-    @notice change owner
-    @dev dev
-    @param _owner this is the owner
-    @return {
-        "previousOwner": "the previous owner"
-    }
-    */
-    function setOwner(address _owner) public returns (address previousOwner) {
-        previousOwner = owner;
-        owner = _owner;
-        return previousOwner;
-    }
-
-    /**
-    @notice create new gav coins
-    @dev use this funciton to create new gavcoins from Ether
-    */
-    function mint() public payable {
-        require(msg.value > 0);
-        balances[msg.sender] += (msg.value * exchangeRate);
     }
 }
 ```
@@ -82,136 +70,166 @@ Return params may either be a single line or formatted as an object as shown abo
 The above example will produce the following result as raw markdown.
 
 ```
-* [GavCoin](#gavcoin)
-  * [mint](#function-mint)
-  * [setOwner](#function-setowner)
-  * [balances](#function-balances)
-  * [send](#function-send)
+* [BugBunny](#bugbunny)
+  * [carrotHash](#function-carrothash)
+  * [eat](#function-eat)
+  * [doesEat](#function-doeseat)
+  * [Consumption](#event-consumption)
 
-# GavCoin
+# BugBunny
 
-Gavin Wood
+A simulator for Bug Bunny, the most famous Rabbit
 
-## *function* mint
+Warned Bros
 
-GavCoin.mint() `payable` `1249c58b`
+## *function* carrotHash
 
-**create new gav coins**
+BugBunny.carrotHash() `view` `21ba2aed`
 
-> use this funciton to create new gavcoins from Ether
+## *function* eat
 
-## *function* setOwner
+BugBunny.eat(_food) `nonpayable` `728d9b74`
 
-GavCoin.setOwner(_owner) `nonpayable` `13af4035`
+**Bug will eat `_food`**
 
-**change owner**
-
-> dev
+> Magic funk machine wow.
 
 Inputs
 
-| type      | name   | description       |
-| --------- | ------ | ----------------- |
-| *address* | _owner | this is the owner |
+| type     | name  | description               |
+| -------- | ----- | ------------------------- |
+| *string* | _food | The name of a food to eat |
 
 Outputs
 
-| type      | name          | description        |
-| --------- | ------------- | ------------------ |
-| *address* | previousOwner | the previous owner |
+| type      | name  | description                              |
+| --------- | ----- | ---------------------------------------- |
+| *bool*    | eaten | true if Bug will eat it, false otherwise |
+| *bytes32* | hash  | hash of the food to eat                  |
 
-## *function* balances
+## *function* doesEat
 
-GavCoin.balances() `view` `27e235e3`
+BugBunny.doesEat(_food) `view` `b6520a32`
 
-Inputs
+**Determine if Bug will accept `_food` to eat**
 
-| type      |
-| --------- |
-| *address* |
-
-## *function* send
-
-GavCoin.send(to, valueInmGAV) `nonpayable` `d0679d34`
-
-**Send `(valueInmGAV / 1000).fixed(0,3)` GAV from the account of `message.caller.address()`, to an account accessible only by `to.address()`**
-
-> This should be the documentation of the function for the developer docs
+> String comparison may be inefficient
 
 Inputs
 
-| type      | name        | description                                 |
-| --------- | ----------- | ------------------------------------------- |
-| *address* | to          | The address of the recipient of the GavCoin |
-| *uint256* | valueInmGAV | The GavCoin value to send                   |
+| type     | name  | description                              |
+| -------- | ----- | ---------------------------------------- |
+| *string* | _food | The name of a food to evaluate (English) |
+
+Outputs
+
+| type   | description                              |
+| ------ | ---------------------------------------- |
+| *bool* | true if Bug will eat it, false otherwise |
+
+## *constructor*
+
+BugBunny(carrot) `nonpayable`
+
+Inputs
+
+| type     | name   |
+| -------- | ------ |
+| *string* | carrot |
+
+## *event* Consumption
+
+BugBunny.Consumption(feeder, food) `be6b1648`
+
+Arguments
+
+| type      | name   | indexed     |
+| --------- | ------ | ----------- |
+| *address* | feeder | indexed     |
+| *string*  | food   | not indexed |
 
 ---
 ```
 
 The same output now parsed:
 
-* [GavCoin](#gavcoin)
-  * [mint](#function-mint)
-  * [setOwner](#function-setowner)
-  * [balances](#function-balances)
-  * [send](#function-send)
+* [BugBunny](#bugbunny)
+  * [carrotHash](#function-carrothash)
+  * [eat](#function-eat)
+  * [doesEat](#function-doeseat)
+  * [Consumption](#event-consumption)
 
-# GavCoin
+# BugBunny
 
-Gavin Wood
+A simulator for Bug Bunny, the most famous Rabbit
 
-## *function* mint
+Warned Bros
 
-GavCoin.mint() `payable` `1249c58b`
+## *function* carrotHash
 
-**create new gav coins**
+BugBunny.carrotHash() `view` `21ba2aed`
 
-> use this funciton to create new gavcoins from Ether
+## *function* eat
 
-## *function* setOwner
+BugBunny.eat(_food) `nonpayable` `728d9b74`
 
-GavCoin.setOwner(_owner) `nonpayable` `13af4035`
+**Bug will eat `_food`**
 
-**change owner**
-
-> dev
+> Magic funk machine wow.
 
 Inputs
 
-| type      | name   | description       |
-| --------- | ------ | ----------------- |
-| *address* | _owner | this is the owner |
+| type     | name  | description               |
+| -------- | ----- | ------------------------- |
+| *string* | _food | The name of a food to eat |
 
 Outputs
 
-| type      | name          | description        |
-| --------- | ------------- | ------------------ |
-| *address* | previousOwner | the previous owner |
+| type      | name  | description                              |
+| --------- | ----- | ---------------------------------------- |
+| *bool*    | eaten | true if Bug will eat it, false otherwise |
+| *bytes32* | hash  | hash of the food to eat                  |
 
-## *function* balances
+## *function* doesEat
 
-GavCoin.balances() `view` `27e235e3`
+BugBunny.doesEat(_food) `view` `b6520a32`
 
-Inputs
+**Determine if Bug will accept `_food` to eat**
 
-| type      |
-| --------- |
-| *address* |
-
-## *function* send
-
-GavCoin.send(to, valueInmGAV) `nonpayable` `d0679d34`
-
-**Send `(valueInmGAV / 1000).fixed(0,3)` GAV from the account of `message.caller.address()`, to an account accessible only by `to.address()`**
-
-> This should be the documentation of the function for the developer docs
+> String comparison may be inefficient
 
 Inputs
 
-| type      | name        | description                                 |
-| --------- | ----------- | ------------------------------------------- |
-| *address* | to          | The address of the recipient of the GavCoin |
-| *uint256* | valueInmGAV | The GavCoin value to send                   |
+| type     | name  | description                              |
+| -------- | ----- | ---------------------------------------- |
+| *string* | _food | The name of a food to evaluate (English) |
+
+Outputs
+
+| type   | description                              |
+| ------ | ---------------------------------------- |
+| *bool* | true if Bug will eat it, false otherwise |
+
+## *constructor*
+
+BugBunny(carrot) `nonpayable`
+
+Inputs
+
+| type     | name   |
+| -------- | ------ |
+| *string* | carrot |
+
+## *event* Consumption
+
+BugBunny.Consumption(feeder, food) `be6b1648`
+
+Arguments
+
+| type      | name   | indexed     |
+| --------- | ------ | ----------- |
+| *address* | feeder | indexed     |
+| *string*  | food   | not indexed |
 
 ---
 

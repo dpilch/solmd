@@ -17,16 +17,17 @@ function formatTable(argList) {
   return '';
 }
 
-const template = it => `
-# ${it.name}
+const template = it => `# ${it.name}
 
-${it.author ? `${it.author}
+${it.title ? `${it.title}
 
-` : ''}${it.abiDocs.map(docItem => (docItem.type === 'event' || docItem.type === 'function' ?
-  `## *${docItem.type}* ${docItem.name}
+` : ''}${it.author ? `${it.author}
+
+` : ''}${it.abiDocs.map(docItem =>
+  `## *${docItem.type}*${docItem.type !== 'constructor' ? ` ${docItem.name}` : ''}
 
 ${[
-    `${it.name}.${docItem.name}(${docItem.argumentList})`,
+    `${it.name}${docItem.type !== 'constructor' ? `.${docItem.name}` : ''}(${docItem.argumentList})`,
     docItem.anonymous ? '`anonymous`' : null,
     docItem.stateMutability ? `\`${docItem.stateMutability}\`` : null,
     docItem.signatureHash ? `\`${docItem.signatureHash}\`` : null,
@@ -44,6 +45,6 @@ ${formatTable(docItem.inputs)}
 
 ${formatTable(docItem.outputs)}
 
-` : ''}` : '')).join('')}---`;
+` : ''}`).join('')}---`;
 
 export default template;
