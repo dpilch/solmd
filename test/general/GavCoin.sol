@@ -33,9 +33,7 @@ contract GavCoin {
     @notice change owner
     @dev dev
     @param _owner this is the owner
-    @return {
-        "previousOwner": "the previous owner"
-    }
+    @return the previous owner
     */
     function setOwner(address _owner) public returns (address previousOwner) {
         previousOwner = owner;
