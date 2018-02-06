@@ -27,10 +27,14 @@ GavCoin.setOwner(_owner) \`nonpayable\` \`13af4035\`
 
 Inputs
 
+| type      | name   | description       |
+| --------- | ------ | ----------------- |
 | *address* | _owner | this is the owner |
 
 Outputs
 
+| type      | name          | description        |
+| --------- | ------------- | ------------------ |
 | *address* | previousOwner | the previous owner |
 
 ## *function* balances
@@ -39,6 +43,8 @@ GavCoin.balances() \`view\` \`27e235e3\`
 
 Inputs
 
+| type      |
+| --------- |
 | *address* |
 
 ## *function* send
@@ -51,8 +57,10 @@ GavCoin.send(to, valueInmGAV) \`nonpayable\` \`d0679d34\`
 
 Inputs
 
-| *address* | to | The address of the recipient of the GavCoin |
-| *uint256* | valueInmGAV | The GavCoin value to send |
+| type      | name        | description                                 |
+| --------- | ----------- | ------------------------------------------- |
+| *address* | to          | The address of the recipient of the GavCoin |
+| *uint256* | valueInmGAV | The GavCoin value to send                   |
 
 ## *event* OwnerChanged
 
@@ -60,7 +68,9 @@ GavCoin.OwnerChanged(newOwner, previousOwner) \`b532073b\`
 
 Arguments
 
-| *address* | newOwner | not indexed |
+| type      | name          | indexed     |
+| --------- | ------------- | ----------- |
+| *address* | newOwner      | not indexed |
 | *address* | previousOwner | not indexed |
 
 ---`;
