@@ -1,3 +1,5 @@
+const markdownTable = require('markdown-table');
+
 function formatTable(argList) {
   const columns = [
     ['type', t => `*${t}*`],
@@ -6,9 +8,11 @@ function formatTable(argList) {
     ['indexed', i => `${i ? '' : 'not '}indexed`],
   ].filter(([col]) => argList.some(obj => obj[col] != null && obj[col] !== ''));
   if (columns.length > 0) {
-    //         return `| ${ columns.map(([col]) => `**${ col }**`).join(' | ') } |
-    // |${ columns.map(([col]) => '-').join('|') }|
-    return `${argList.map(obj => `| ${columns.map(([col, fmt]) => (fmt ? fmt(obj[col]) : obj[col])).join(' | ')} |`).join('\n')}`;
+    return markdownTable([
+      columns.map(([col]) => col),
+      ...argList.map(obj =>
+        columns.map(([col, fmt]) =>
+          (fmt ? fmt(obj[col]) : obj[col])))]);
   }
   return '';
 }
