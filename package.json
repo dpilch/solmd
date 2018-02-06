@@ -43,8 +43,8 @@
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
-    "dot": "^1.1.2",
     "keccakjs": "^0.2.1",
+    "markdown-table": "^1.1.1",
     "minimist": "^1.2.0"
   },
   "pre-commit": [

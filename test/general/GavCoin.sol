@@ -17,7 +17,7 @@ contract GavCoin {
 
     /**
     @notice Send `(valueInmGAV / 1000).fixed(0,3)` GAV from the account of
-    `message.caller.address()`, to an account accessible only by `to.address()
+    `message.caller.address()`, to an account accessible only by `to.address()`
     @dev This should be the documentation of the function for the developer docs
     @param to The address of the recipient of the GavCoin
     @param valueInmGAV The GavCoin value to send
@@ -33,9 +33,7 @@ contract GavCoin {
     @notice change owner
     @dev dev
     @param _owner this is the owner
-    @return {
-        "previousOwner": "the previous owner"
-    }
+    @return the previous owner
     */
     function setOwner(address _owner) public returns (address previousOwner) {
         previousOwner = owner;

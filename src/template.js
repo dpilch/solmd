@@ -1,42 +1,49 @@
-import doT from 'dot';
+const markdownTable = require('markdown-table');
 
-const template = `
-# {{=it.name}}
-{{? it.author }}
-{{=it.author}}{{?}}
-{{~it.abiDocs :docItem:index}}{{? docItem.type === 'event'}}## *{{=docItem.type}}* {{=docItem.name}}
+function formatTable(argList) {
+  const columns = [
+    ['type', t => `*${t}*`],
+    ['name'],
+    ['description'],
+    ['indexed', i => `${i ? '' : 'not '}indexed`],
+  ].filter(([col]) => argList.some(obj => obj[col] != null && obj[col] !== ''));
+  if (columns.length > 0) {
+    return markdownTable([
+      columns.map(([col]) => col),
+      ...argList.map(obj =>
+        columns.map(([col, fmt]) =>
+          (fmt ? fmt(obj[col]) : obj[col])))]);
+  }
+  return '';
+}
 
-{{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}) {{?docItem.anonymous}}\`anonymous\` {{?}}\`{{=docItem.signatureHash}}\`
+const template = it => `
+# ${it.name}
 
-{{? docItem.inputs.length > 0 }}Arguments
+${it.author ? `${it.author}
 
-| **type** | **name** | **description** |
-|-|-|-|{{~docItem.inputs :argument}}
-| *{{=argument.type}}* | {{=argument.name}} | {{? argument.indexed === false}}not {{?}}indexed |{{~}}{{?}}
-{{?}}{{? docItem.type === 'function'}}
-## *{{=docItem.type}}* {{=docItem.name}}
+` : ''}${it.abiDocs.map(docItem => (docItem.type === 'event' || docItem.type === 'function' ?
+  `## *${docItem.type}* ${docItem.name}
 
-{{=it.name}}.{{=docItem.name}}({{=docItem.argumentList}}) \`{{=docItem.stateMutability}}\` \`{{=docItem.signatureHash}}\`
-{{?docItem.notice}}
-**{{=docItem.notice}}**
-{{?}}
-{{?docItem.details}}> {{=docItem.details}}
-{{?}}
-{{? docItem.inputs.length > 0 }}Inputs
+${[
+    `${it.name}.${docItem.name}(${docItem.argumentList})`,
+    docItem.anonymous ? '`anonymous`' : null,
+    docItem.stateMutability ? `\`${docItem.stateMutability}\`` : null,
+    docItem.signatureHash ? `\`${docItem.signatureHash}\`` : null,
+  ].filter(v => v != null).join(' ')}
 
-| **type** | **name** | **description** |
-|-|-|-|{{~docItem.inputs :argument}}
-|-|-|-|{{~docItem.inputs :input}}
-| *{{=input.type}}* | {{=input.name}} | {{=input.description}} |{{~}}{{?}}
-{{? docItem.outputs.length > 0 }}
-Outputs
+${docItem.notice ? `**${docItem.notice}**
 
-| **type** | **name** | **description** |
-|-|-|-|{{~docItem.outputs :output}}
-| *{{=output.type}}* | {{=output.name}} | {{=output.description}} |{{~}}{{?}}{{?}}
-{{~}}
----`;
+` : ''}${docItem.details ? `> ${docItem.details}
 
-doT.templateSettings.strip = false;
+` : ''}${docItem.inputs.length > 0 ? `${docItem.type === 'event' ? 'Arguments' : 'Inputs'}
 
-export default doT.template(template);
+${formatTable(docItem.inputs)}
+
+` : ''}${docItem.outputs.length > 0 ? `Outputs
+
+${formatTable(docItem.outputs)}
+
+` : ''}` : '')).join('')}---`;
+
+export default template;
