@@ -29,6 +29,7 @@ export default function ({ args, data }) {
           }
         });
       });
+      writeStream.write('\n');
     }
 
     // create docs for each contract from template
