@@ -44,7 +44,7 @@ Inputs
 
 GavCoin.send(to, valueInmGAV) \`nonpayable\` \`d0679d34\`
 
-**Send \`(valueInmGAV / 1000).fixed(0,3)\` GAV from the account of \`message.caller.address()\`, to an account accessible only by \`to.address()**
+**Send \`(valueInmGAV / 1000).fixed(0,3)\` GAV from the account of \`message.caller.address()\`, to an account accessible only by \`to.address()\`**
 
 > This should be the documentation of the function for the developer docs
 
