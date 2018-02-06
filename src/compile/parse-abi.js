@@ -22,8 +22,14 @@ export default function (contract) {
         ));
       }
     } catch (e) {
-      process.stderr.write(`warning: invalid @return for ${method.name} - output may be effected\n`);
-      outputs = method.outputs; // eslint-disable-line prefer-destructuring
+      if (typeof devDocs.return === 'string' && method.outputs.length === 1) {
+        outputs = method.outputs.map(param => (
+          { ...param, description: devDocs.return }
+        ));
+      } else {
+        process.stderr.write(`warning: invalid @return for ${method.name} - output may be effected\n`);
+        outputs = method.outputs; // eslint-disable-line prefer-destructuring
+      }
     }
 
     return {

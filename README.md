@@ -77,7 +77,7 @@ contract GavCoin {
 }
 ```
 
-Return params must be a single `@param` formatted as an object as shown above.
+Return params may either be a single line or formatted as an object as shown above. In functions with multiple returns, params must be formatted as an object.
 
 The above example will produce the following result as raw markdown.
 
