@@ -40,9 +40,9 @@ export const tableOfContents = (it) => {
   return `* [${it.name}](#${it.name.toLowerCase()})
 ${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#${cNameLower}-accessors)
 ` : ''}${eventsDocs.length > 0 ? `  * [Events](#${cNameLower}-events)
-${eventsDocs.map(docItem => `    * [${formatMethod(docItem)}](#${cNameLower}.${formatMethodAnchor(docItem)})`).join('\n')}
+${eventsDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
 ` : ''}${functionDocs.length > 0 ? `  * [Functions](#${cNameLower}-functions)
-${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${cNameLower}.${formatMethodAnchor(docItem)})`).join('\n')}
+${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
 ` : ''}`;
 };
 
@@ -81,7 +81,7 @@ const eventsSection = (it) => {
   return `
 ## ${it.name} Events
 
-${eventsDocs.map(docItem => `### ${it.name}.${formatMethod(docItem)}
+${eventsDocs.map(docItem => `### ${formatMethod(docItem)}
 
 ${
   docItem.anonymous ? 'This event is `anonymous`' : `**Signature hash**: \`${docItem.signatureHash}\``
@@ -98,7 +98,7 @@ const functionsSection = (it) => {
 ## ${it.name} Functions
 
 ${functionDocs.map(docItem =>
-    `### ${it.name}.${formatMethod(docItem)}
+    `### ${formatMethod(docItem)}
 
 ${[
     docItem.stateMutability ? `- **State mutability**: \`${docItem.stateMutability}\`` : null,
