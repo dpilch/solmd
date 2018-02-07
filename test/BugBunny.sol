@@ -65,9 +65,9 @@ contract BugBunny {
     }
 }
 
-/// @title For use the space batle
-/// @author Jorge Lucaz
-contract StarWar {
-    function() external {}
-    function pew(uint) public pure returns(uint);
-}
+// /// @title For use the space batle
+// /// @author Jorge Lucaz
+// contract StarWar {
+//     function() external {
+//     }
+// }

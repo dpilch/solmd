@@ -7,12 +7,16 @@ export default function (src) {
     const res = JSON.parse(rawRes);
     resolve({
       contracts: Object.keys(res.contracts).reduce((o, k) => {
-        const contractName = k.split(':')[1];
+        const file = k.split(':')[0];
+        const fileFragments = file.split('/');
+        const contractName = fileFragments[fileFragments.length - 1].split('.sol')[0];
         const contract = res.contracts[k];
+        const fileName = `${process.env.PWD}/${k.split(':')[0]}`;
         return {
           ...o,
           [contractName]: {
             ...contract,
+            fileName,
             abi: JSON.parse(contract.abi),
             devdoc: JSON.parse(contract.devdoc),
             userdoc: JSON.parse(contract.userdoc),
