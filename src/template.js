@@ -1,11 +1,17 @@
 const markdownTable = require('markdown-table');
 
+const isAccessor = ({
+  stateMutability, inputs, outputs,
+}) =>
+  stateMutability === 'view' &&
+  inputs.every(({ name, description }) => !name && !description) &&
+  outputs.length === 1 && !outputs[0].name && !outputs[0].description;
+
 function formatTable(argList) {
   const columns = [
     ['type', t => `*${t}*`],
     ['name'],
     ['description'],
-    ['indexed', i => `${i ? '' : 'not '}indexed`],
   ].filter(([col]) => argList.some(obj => obj[col] != null && obj[col] !== ''));
   if (columns.length > 0) {
     return markdownTable([
@@ -17,34 +23,113 @@ function formatTable(argList) {
   return '';
 }
 
-const template = it => `# ${it.name}
+const formatMethod = docItem => `${docItem.name}(${
+  docItem.inputs.map(({ type, indexed, name }) => `*${type}*${
+    indexed ? ' `indexed`' : ''
+  }${
+    name ? ` ${name}` : ''
+  }`).join(', ')
+})`;
 
-${it.title ? `${it.title}
+const formatMethodAnchor = docItem => formatMethod(docItem).toLowerCase().replace(/ /g, '-').replace(/[^-\w]+/g, '');
 
-` : ''}${it.author ? `${it.author}
+export const tableOfContents = (it) => {
+  const functionDocs = it.abiDocs.filter(docItem => docItem.type === 'function' && !isAccessor(docItem));
+  return `* [${it.name}](#${it.name.toLowerCase()})
+${it.abiDocs.some(({ type }) => type === 'event') ? `  * [Events](#events)
+` : ''}${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#accessors)
+` : ''}${functionDocs.length > 0 ? `  * [Functions](#functions)
+${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}` : ''}
+`;
+};
 
-` : ''}${it.abiDocs.map(docItem =>
-  `## *${docItem.type}*${docItem.type !== 'constructor' ? ` ${docItem.name}` : ''}
+const constructorNote = (it) => {
+  const constructorDoc = it.abiDocs.find(({ type }) => type === 'constructor');
+
+  return `**Constructor**: ${it.name}(${
+    constructorDoc ? constructorDoc.inputs.map(({ type, name }) => `*${type}* ${name}`).join(', ') : ''
+  })
+
+`;
+};
+
+const fallbackNote = (it) => {
+  const fallbackDoc = it.abiDocs.find(({ type }) => type === 'fallback');
+
+  return fallbackDoc ? `This contract has a \`${fallbackDoc.stateMutability}\` fallback function.
+
+` : 'This contract does **not** have a fallback function.\n\n';
+};
+
+const eventsSection = (it) => {
+  const eventsDocs = it.abiDocs.filter(({ type }) => type === 'event');
+  if (eventsDocs.length === 0) return '';
+
+  return `## Events
+
+${eventsDocs.map(docItem => `* ${formatMethod(docItem)}
+  ${
+  docItem.anonymous ? '`anonymous`' : `\`${docItem.signatureHash}\``
+}`).join('\n')}
+
+`;
+};
+
+const accessorsSection = (it) => {
+  const accessorDocs = it.abiDocs.filter(docItem =>
+    docItem.type === 'function' && isAccessor(docItem));
+  if (accessorDocs.length === 0) return '';
+
+  return `## Accessors
+
+${accessorDocs.map(docItem => `* *${docItem.outputs[0].type}* ${formatMethod(docItem)} \`${docItem.signatureHash}\``).join('\n')}
+
+`;
+};
+
+const functionsSection = (it) => {
+  const functionDocs = it.abiDocs.filter(docItem =>
+    docItem.type === 'function' && !isAccessor(docItem));
+  if (functionDocs.length === 0) return '';
+
+  return `## Functions
+
+${functionDocs.map(docItem =>
+    `### ${formatMethod(docItem)}
 
 ${[
-    `${it.name}${docItem.type !== 'constructor' ? `.${docItem.name}` : ''}(${docItem.argumentList})`,
-    docItem.anonymous ? '`anonymous`' : null,
-    docItem.stateMutability ? `\`${docItem.stateMutability}\`` : null,
-    docItem.signatureHash ? `\`${docItem.signatureHash}\`` : null,
-  ].filter(v => v != null).join(' ')}
+    docItem.stateMutability ? `**State mutability**: \`${docItem.stateMutability}\`` : null,
+    docItem.signatureHash ? `**Signature hash**: \`${docItem.signatureHash}\`` : null,
+    docItem.author ? `**Author**: ${docItem.author}` : null,
+    docItem.notice ? `**Notice**: ${docItem.notice}` : null,
+  ].filter(v => v != null).join('\n')}
 
-${docItem.notice ? `**${docItem.notice}**
+${docItem.details ? `${docItem.details}
 
-` : ''}${docItem.details ? `> ${docItem.details}
-
-` : ''}${docItem.inputs.length > 0 ? `${docItem.type === 'event' ? 'Arguments' : 'Inputs'}
+` : ''}${docItem.inputs.length > 0 ? `#### Inputs
 
 ${formatTable(docItem.inputs)}
 
-` : ''}${docItem.outputs.length > 0 ? `Outputs
+` : ''}${docItem.outputs.length > 0 ? `#### Outputs
 
-${formatTable(docItem.outputs)}
+${formatTable(docItem.outputs)}` : ''}`).join('\n\n')}`;
+};
 
-` : ''}`).join('')}---`;
+export const template = it => `# ${it.name}
 
-export default template;
+${it.title ? `### ${it.title}
+
+` : ''}${it.author ? `**Author**: ${it.author}
+
+` : ''}${
+  constructorNote(it)
+}${
+  fallbackNote(it)
+}${
+  eventsSection(it)
+}${
+  accessorsSection(it)
+}${
+  functionsSection(it)
+}
+`;
