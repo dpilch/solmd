@@ -19,17 +19,11 @@ export default function ({ args, data }) {
     });
     // build the table of contents
     if (!args.notoc) {
-      data.forEach((contract) => {
-        writeStream.write(tableOfContents(contract));
-      });
-      writeStream.write('\n');
+      writeStream.write(`${data.map(tableOfContents).join('')}\n`);
     }
 
     // create docs for each contract from template
-    data.forEach((contract) => {
-      const md = template(contract);
-      writeStream.write(md);
-    });
+    writeStream.write(data.map(template).join('\n'));
 
     writeStream.end();
   });
