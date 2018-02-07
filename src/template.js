@@ -34,14 +34,15 @@ const formatMethod = docItem => `${docItem.name}(${
 const formatMethodAnchor = docItem => formatMethod(docItem).toLowerCase().replace(/ /g, '-').replace(/[^-\w]+/g, '');
 
 export const tableOfContents = (it) => {
+  const cNameLower = it.name.toLowerCase();
   const eventsDocs = it.abiDocs.filter(({ type }) => type === 'event');
   const functionDocs = it.abiDocs.filter(docItem => docItem.type === 'function' && !isAccessor(docItem));
   return `* [${it.name}](#${it.name.toLowerCase()})
-${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#accessors)
-` : ''}${eventsDocs.length > 0 ? `  * [Events](#events)
-${eventsDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
-` : ''}${functionDocs.length > 0 ? `  * [Functions](#functions)
-${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
+${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#${cNameLower}-accessors)
+` : ''}${eventsDocs.length > 0 ? `  * [Events](#${cNameLower}-events)
+${eventsDocs.map(docItem => `    * [${formatMethod(docItem)}](#${cNameLower}.${formatMethodAnchor(docItem)})`).join('\n')}
+` : ''}${functionDocs.length > 0 ? `  * [Functions](#${cNameLower}-functions)
+${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${cNameLower}.${formatMethodAnchor(docItem)})`).join('\n')}
 ` : ''}`;
 };
 
@@ -58,23 +59,7 @@ const fallbackNote = (it) => {
   const fallbackDoc = it.abiDocs.find(({ type }) => type === 'fallback');
 
   return fallbackDoc ? `- This contract has a \`${fallbackDoc.stateMutability}\` fallback function.
-
-` : '- This contract does **not** have a fallback function.\n\n';
-};
-
-const eventsSection = (it) => {
-  const eventsDocs = it.abiDocs.filter(({ type }) => type === 'event');
-  if (eventsDocs.length === 0) return '';
-
-  return `## Events
-
-${eventsDocs.map(docItem => `### ${formatMethod(docItem)}
-
-${
-  docItem.anonymous ? 'This event is `anonymous`' : `**Signature hash**: \`${docItem.signatureHash}\``
-}`).join('\n\n')}
-
-`;
+` : '- This contract does **not** have a fallback function.\n';
 };
 
 const accessorsSection = (it) => {
@@ -82,10 +67,25 @@ const accessorsSection = (it) => {
     docItem.type === 'function' && isAccessor(docItem));
   if (accessorDocs.length === 0) return '';
 
-  return `## Accessors
+  return `
+## ${it.name} Accessors
 
 ${accessorDocs.map(docItem => `* *${docItem.outputs[0].type}* ${formatMethod(docItem)} \`${docItem.signatureHash}\``).join('\n')}
+`;
+};
 
+const eventsSection = (it) => {
+  const eventsDocs = it.abiDocs.filter(({ type }) => type === 'event');
+  if (eventsDocs.length === 0) return '';
+
+  return `
+## ${it.name} Events
+
+${eventsDocs.map(docItem => `### ${it.name}.${formatMethod(docItem)}
+
+${
+  docItem.anonymous ? 'This event is `anonymous`' : `**Signature hash**: \`${docItem.signatureHash}\``
+}`).join('\n\n')}
 `;
 };
 
@@ -94,10 +94,11 @@ const functionsSection = (it) => {
     docItem.type === 'function' && !isAccessor(docItem));
   if (functionDocs.length === 0) return '';
 
-  return `## Functions
+  return `
+## ${it.name} Functions
 
 ${functionDocs.map(docItem =>
-    `### ${formatMethod(docItem)}
+    `### ${it.name}.${formatMethod(docItem)}
 
 ${[
     docItem.stateMutability ? `- **State mutability**: \`${docItem.stateMutability}\`` : null,
@@ -105,16 +106,17 @@ ${[
     docItem.author ? `- **Author**: ${docItem.author}` : null,
     docItem.notice ? `- **Notice**: ${docItem.notice}` : null,
   ].filter(v => v != null).join('\n')}
-
-${docItem.details ? `${docItem.details}
-
-` : ''}${docItem.inputs.length > 0 ? `#### Inputs
+${docItem.details ? `
+${docItem.details}
+` : ''}${docItem.inputs.length > 0 ? `
+#### Inputs
 
 ${formatTable(docItem.inputs)}
+` : ''}${docItem.outputs.length > 0 ? `
+#### Outputs
 
-` : ''}${docItem.outputs.length > 0 ? `#### Outputs
-
-${formatTable(docItem.outputs)}` : ''}`).join('\n\n')}`;
+${formatTable(docItem.outputs)}
+` : ''}`).join('\n')}`;
 };
 
 export const template = it => `# ${it.name}
@@ -132,5 +134,4 @@ ${it.title ? `### ${it.title}
   eventsSection(it)
 }${
   functionsSection(it)
-}
-`;
+}`;
