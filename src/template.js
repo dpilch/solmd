@@ -10,7 +10,7 @@ const isAccessor = ({
 function formatTable(argList) {
   const columns = [
     ['type', t => `*${t}*`],
-    ['name'],
+    ['name', n => `\`${n}\``],
     ['description'],
   ].filter(([col]) => argList.some(obj => obj[col] != null && obj[col] !== ''));
   if (columns.length > 0) {
@@ -25,40 +25,41 @@ function formatTable(argList) {
 
 const formatMethod = docItem => `${docItem.name}(${
   docItem.inputs.map(({ type, indexed, name }) => `*${type}*${
-    indexed ? ' `indexed`' : ''
+    indexed ? ' indexed' : ''
   }${
-    name ? ` ${name}` : ''
+    name ? ` \`${name}\`` : ''
   }`).join(', ')
 })`;
 
 const formatMethodAnchor = docItem => formatMethod(docItem).toLowerCase().replace(/ /g, '-').replace(/[^-\w]+/g, '');
 
 export const tableOfContents = (it) => {
+  const eventsDocs = it.abiDocs.filter(({ type }) => type === 'event');
   const functionDocs = it.abiDocs.filter(docItem => docItem.type === 'function' && !isAccessor(docItem));
   return `* [${it.name}](#${it.name.toLowerCase()})
-${it.abiDocs.some(({ type }) => type === 'event') ? `  * [Events](#events)
-` : ''}${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#accessors)
+${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#accessors)
+` : ''}${eventsDocs.length > 0 ? `  * [Events](#events)
+${eventsDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
 ` : ''}${functionDocs.length > 0 ? `  * [Functions](#functions)
-${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}` : ''}
-`;
+${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
+` : ''}`;
 };
 
 const constructorNote = (it) => {
   const constructorDoc = it.abiDocs.find(({ type }) => type === 'constructor');
 
-  return `**Constructor**: ${it.name}(${
-    constructorDoc ? constructorDoc.inputs.map(({ type, name }) => `*${type}* ${name}`).join(', ') : ''
+  return `- **Constructor**: ${it.name}(${
+    constructorDoc ? constructorDoc.inputs.map(({ type, name }) => `*${type}* \`${name}\``).join(', ') : ''
   })
-
 `;
 };
 
 const fallbackNote = (it) => {
   const fallbackDoc = it.abiDocs.find(({ type }) => type === 'fallback');
 
-  return fallbackDoc ? `This contract has a \`${fallbackDoc.stateMutability}\` fallback function.
+  return fallbackDoc ? `- This contract has a \`${fallbackDoc.stateMutability}\` fallback function.
 
-` : 'This contract does **not** have a fallback function.\n\n';
+` : '- This contract does **not** have a fallback function.\n\n';
 };
 
 const eventsSection = (it) => {
@@ -67,10 +68,11 @@ const eventsSection = (it) => {
 
   return `## Events
 
-${eventsDocs.map(docItem => `* ${formatMethod(docItem)}
-  ${
-  docItem.anonymous ? '`anonymous`' : `\`${docItem.signatureHash}\``
-}`).join('\n')}
+${eventsDocs.map(docItem => `### ${formatMethod(docItem)}
+
+${
+  docItem.anonymous ? 'This event is `anonymous`' : `**Signature hash**: \`${docItem.signatureHash}\``
+}`).join('\n\n')}
 
 `;
 };
@@ -98,10 +100,10 @@ ${functionDocs.map(docItem =>
     `### ${formatMethod(docItem)}
 
 ${[
-    docItem.stateMutability ? `**State mutability**: \`${docItem.stateMutability}\`` : null,
-    docItem.signatureHash ? `**Signature hash**: \`${docItem.signatureHash}\`` : null,
-    docItem.author ? `**Author**: ${docItem.author}` : null,
-    docItem.notice ? `**Notice**: ${docItem.notice}` : null,
+    docItem.stateMutability ? `- **State mutability**: \`${docItem.stateMutability}\`` : null,
+    docItem.signatureHash ? `- **Signature hash**: \`${docItem.signatureHash}\`` : null,
+    docItem.author ? `- **Author**: ${docItem.author}` : null,
+    docItem.notice ? `- **Notice**: ${docItem.notice}` : null,
   ].filter(v => v != null).join('\n')}
 
 ${docItem.details ? `${docItem.details}
@@ -119,16 +121,15 @@ export const template = it => `# ${it.name}
 
 ${it.title ? `### ${it.title}
 
-` : ''}${it.author ? `**Author**: ${it.author}
-
+` : ''}${it.author ? `- **Author**: ${it.author}
 ` : ''}${
   constructorNote(it)
 }${
   fallbackNote(it)
 }${
-  eventsSection(it)
-}${
   accessorsSection(it)
+}${
+  eventsSection(it)
 }${
   functionsSection(it)
 }
