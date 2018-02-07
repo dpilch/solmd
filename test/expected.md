@@ -6,28 +6,28 @@
 - **Constructor**: BugBunny(*string* `carrot`)
 - This contract has a `payable` fallback function.
 
-## Accessors
+## BugBunny Accessors
 
 * *bytes32* carrotHash() `21ba2aed`
 * *bool* ballerz(*address*, *uint256*) `ba91571b`
 
-## Events
+## BugBunny Events
 
-### Consumption(*address* indexed `feeder`, *string* `food`)
+### BugBunny.Consumption(*address* indexed `feeder`, *string* `food`)
 
 **Signature hash**: `be6b16487b5d077520d7501d2566cbd948bb405c595b2095397662a05d7052fe`
 
-### Consumption(*address* indexed `payer`, *uint256* `amount`)
+### BugBunny.Consumption(*address* indexed `payer`, *uint256* `amount`)
 
 **Signature hash**: `4d03323821b5dfc96a698f2002d64ab816662937a4d5366e851acda40ceb319a`
 
-### AnonEvent()
+### BugBunny.AnonEvent()
 
 This event is `anonymous`
 
-## Functions
+## BugBunny Functions
 
-### eat(*string* `food1`, *string* `food2`)
+### BugBunny.eat(*string* `food1`, *string* `food2`)
 
 - **State mutability**: `nonpayable`
 - **Signature hash**: `26fab75d`
@@ -49,7 +49,7 @@ Raw stuff.
 | *bool*    | `eaten` | true if Bug ate, false otherwise |
 | *bytes32* | `hash`  | hash of the food eaten           |
 
-### eat(*string* `_food`)
+### BugBunny.eat(*string* `_food`)
 
 - **State mutability**: `nonpayable`
 - **Signature hash**: `728d9b74`
@@ -70,7 +70,7 @@ Magic funk machine wow.
 | *bool*    | `eaten` | true if Bug will eat it, false otherwise |
 | *bytes32* | `hash`  | hash of the food to eat                  |
 
-### doesEat(*string* `_food`)
+### BugBunny.doesEat(*string* `_food`)
 
 - **State mutability**: `view`
 - **Signature hash**: `b6520a32`
@@ -90,3 +90,30 @@ String comparison may be inefficient
 | type   | description                              |
 | ------ | ---------------------------------------- |
 | *bool* | true if Bug will eat it, false otherwise |
+
+# StarWar
+
+### For use the space batle
+
+- **Author**: Jorge Lucaz
+- **Constructor**: StarWar()
+- This contract has a `nonpayable` fallback function.
+
+## StarWar Functions
+
+### StarWar.pew(*uint256*)
+
+- **State mutability**: `pure`
+- **Signature hash**: `1a28180e`
+
+#### Inputs
+
+| type      |
+| --------- |
+| *uint256* |
+
+#### Outputs
+
+| type      |
+| --------- |
+| *uint256* |
