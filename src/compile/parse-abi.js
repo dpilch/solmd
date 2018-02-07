@@ -1,4 +1,4 @@
-import getFunctionSignature from '../helpers';
+import { getFunctionSignature, getEventTopic } from '../helpers';
 
 export default function (contract) {
   return contract.abi.map((method) => {
@@ -13,7 +13,7 @@ export default function (contract) {
     // don't write this
     delete devDocs.params;
 
-    let outputs = [];
+    let outputs = method.outputs || []; // eslint-disable-line prefer-destructuring;
     try {
       if (typeof devDocs.return !== 'undefined') {
         const outputParams = JSON.parse(devDocs.return);
@@ -27,8 +27,7 @@ export default function (contract) {
           { ...param, description: devDocs.return }
         ));
       } else {
-        process.stderr.write(`warning: invalid @return for ${method.name} - output may be effected\n`);
-        outputs = method.outputs; // eslint-disable-line prefer-destructuring
+        process.stderr.write(`warning: invalid @return for ${method.name} - output may be affected\n`);
       }
     }
 
@@ -40,7 +39,7 @@ export default function (contract) {
       argumentList,
       outputs,
       signature,
-      signatureHash: signature && getFunctionSignature(signature),
+      signatureHash: signature && (method.type === 'function' ? getFunctionSignature(signature) : getEventTopic(signature)),
     };
   });
 }

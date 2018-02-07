@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import template from './template';
+import { tableOfContents, template } from './template';
 
 export default function ({ args, data }) {
   return new Promise((resolve, reject) => {
@@ -20,14 +20,7 @@ export default function ({ args, data }) {
     // build the table of contents
     if (!args.notoc) {
       data.forEach((contract) => {
-        // contract name
-        writeStream.write(`* [${contract.name}](#${contract.name.toLowerCase()})\n`);
-        // methods (sub-bullets)
-        contract.abiDocs.forEach((docItem) => {
-          if (typeof docItem.name !== 'undefined') {
-            writeStream.write(`  * [${docItem.name}](#${docItem.type}-${docItem.name.toLowerCase()})\n`);
-          }
-        });
+        writeStream.write(tableOfContents(contract));
       });
       writeStream.write('\n');
     }

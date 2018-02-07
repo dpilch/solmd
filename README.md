@@ -29,16 +29,19 @@ contract BugBunny {
 
     // tags on storage vars currently unsupported by devdocs
     bytes32 public carrotHash;
+    mapping (address => mapping (uint => bool)) public ballerz;
 
     // tags on events currently unsupported by devdocs
     event Consumption(address indexed feeder, string food);
+    event Consumption(address indexed payer, uint amount);
+    event AnonEvent() anonymous;
 
     // tags on constructors currently unsupported by devdocs
     function BugBunny(string carrot) public {
         carrotHash = keccak256(carrot);
     }
 
-    /// @author Bob Clampett
+    /// @author Birb Lampkett
     /// @notice Determine if Bug will accept `_food` to eat
     /// @dev String comparison may be inefficient
     /// @param _food The name of a food to evaluate (English)
@@ -48,21 +51,49 @@ contract BugBunny {
     }
 
     /// @author Funk Master
-    /// @notice Bug will eat `_food`
     /// @dev Magic funk machine wow.
     /// @param _food The name of a food to eat
     /// @return {
     ///    "eaten": "true if Bug will eat it, false otherwise",
     ///    "hash": "hash of the food to eat"
     /// }
-    function eat(string _food) external returns (bool eaten, bytes32 hash) {
+    function eat(string _food) public returns (bool eaten, bytes32 hash) {
         eaten = doesEat(_food);
         hash = keccak256(_food);
         if(eaten) {
             Consumption(msg.sender, _food);
         }
     }
+
+    /// @notice Bug will eat either `food1` or `food2`
+    /// @dev Raw stuff.
+    /// @param food1 The name of first food to try
+    /// @param food2 The name of second food to try
+    /// @return {
+    ///    "eaten": "true if Bug ate, false otherwise",
+    ///    "hash": "hash of the food eaten"
+    /// }
+    function eat(string food1, string food2) external returns (bool eaten, bytes32 hash) {
+        if(doesEat(food1)) {
+            (eaten, hash) = eat(food1);
+        } else {
+            (eaten, hash) = eat(food2);
+        }
+    }
+
+    // tags on fallback functions currently not supported by devdocs
+    function() external payable {
+        Consumption(msg.sender, msg.value);
+        ballerz[msg.sender][msg.value] = true;
+    }
 }
+
+// /// @title For use the space batle
+// /// @author Jorge Lucaz
+// contract StarWar {
+//     function() external {
+//     }
+// }
 ```
 
 Return params may either be a single line or formatted as an object as shown above. In functions with multiple returns, params must be formatted as an object.
@@ -71,167 +102,203 @@ The above example will produce the following result as raw markdown.
 
 ```
 * [BugBunny](#bugbunny)
-  * [carrotHash](#function-carrothash)
-  * [eat](#function-eat)
-  * [doesEat](#function-doeseat)
-  * [Consumption](#event-consumption)
+  * [Events](#events)
+  * [Accessors](#accessors)
+  * [Functions](#functions)
+    * [eat(*string* food1, *string* food2)](#eatstring-food1-string-food2)
+    * [eat(*string* _food)](#eatstring-_food)
+    * [doesEat(*string* _food)](#doeseatstring-_food)
 
 # BugBunny
 
-A simulator for Bug Bunny, the most famous Rabbit
+### A simulator for Bug Bunny, the most famous Rabbit
 
-Warned Bros
+**Author**: Warned Bros
 
-## *function* carrotHash
+**Constructor**: BugBunny(*string* carrot)
 
-BugBunny.carrotHash() `view` `21ba2aed`
+This contract has a `payable` fallback function.
 
-## *function* eat
+## Events
 
-BugBunny.eat(_food) `nonpayable` `728d9b74`
+* Consumption(*address* `indexed` feeder, *string* food)
+  `be6b16487b5d077520d7501d2566cbd948bb405c595b2095397662a05d7052fe`
+* Consumption(*address* `indexed` payer, *uint256* amount)
+  `4d03323821b5dfc96a698f2002d64ab816662937a4d5366e851acda40ceb319a`
+* AnonEvent()
+  `anonymous`
 
-**Bug will eat `_food`**
+## Accessors
 
-> Magic funk machine wow.
+* *bytes32* carrotHash() `21ba2aed`
+* *bool* ballerz(*address*, *uint256*) `ba91571b`
 
-Inputs
+## Functions
+
+### eat(*string* food1, *string* food2)
+
+**State mutability**: `nonpayable`
+**Signature hash**: `26fab75d`
+**Notice**: Bug will eat either `food1` or `food2`
+
+Raw stuff.
+
+#### Inputs
+
+| type     | name  | description                    |
+| -------- | ----- | ------------------------------ |
+| *string* | food1 | The name of first food to try  |
+| *string* | food2 | The name of second food to try |
+
+#### Outputs
+
+| type      | name  | description                      |
+| --------- | ----- | -------------------------------- |
+| *bool*    | eaten | true if Bug ate, false otherwise |
+| *bytes32* | hash  | hash of the food eaten           |
+
+### eat(*string* _food)
+
+**State mutability**: `nonpayable`
+**Signature hash**: `728d9b74`
+**Author**: Funk Master
+
+Magic funk machine wow.
+
+#### Inputs
 
 | type     | name  | description               |
 | -------- | ----- | ------------------------- |
 | *string* | _food | The name of a food to eat |
 
-Outputs
+#### Outputs
 
 | type      | name  | description                              |
 | --------- | ----- | ---------------------------------------- |
 | *bool*    | eaten | true if Bug will eat it, false otherwise |
 | *bytes32* | hash  | hash of the food to eat                  |
 
-## *function* doesEat
+### doesEat(*string* _food)
 
-BugBunny.doesEat(_food) `view` `b6520a32`
+**State mutability**: `view`
+**Signature hash**: `b6520a32`
+**Author**: Birb Lampkett
+**Notice**: Determine if Bug will accept `_food` to eat
 
-**Determine if Bug will accept `_food` to eat**
+String comparison may be inefficient
 
-> String comparison may be inefficient
-
-Inputs
+#### Inputs
 
 | type     | name  | description                              |
 | -------- | ----- | ---------------------------------------- |
 | *string* | _food | The name of a food to evaluate (English) |
 
-Outputs
+#### Outputs
 
 | type   | description                              |
 | ------ | ---------------------------------------- |
 | *bool* | true if Bug will eat it, false otherwise |
-
-## *constructor*
-
-BugBunny(carrot) `nonpayable`
-
-Inputs
-
-| type     | name   |
-| -------- | ------ |
-| *string* | carrot |
-
-## *event* Consumption
-
-BugBunny.Consumption(feeder, food) `be6b1648`
-
-Arguments
-
-| type      | name   | indexed     |
-| --------- | ------ | ----------- |
-| *address* | feeder | indexed     |
-| *string*  | food   | not indexed |
-
----
 ```
 
 The same output now parsed:
 
 * [BugBunny](#bugbunny)
-  * [carrotHash](#function-carrothash)
-  * [eat](#function-eat)
-  * [doesEat](#function-doeseat)
-  * [Consumption](#event-consumption)
+  * [Events](#events)
+  * [Accessors](#accessors)
+  * [Functions](#functions)
+    * [eat(*string* food1, *string* food2)](#eatstring-food1-string-food2)
+    * [eat(*string* _food)](#eatstring-_food)
+    * [doesEat(*string* _food)](#doeseatstring-_food)
 
 # BugBunny
 
-A simulator for Bug Bunny, the most famous Rabbit
+### A simulator for Bug Bunny, the most famous Rabbit
 
-Warned Bros
+**Author**: Warned Bros
 
-## *function* carrotHash
+**Constructor**: BugBunny(*string* carrot)
 
-BugBunny.carrotHash() `view` `21ba2aed`
+This contract has a `payable` fallback function.
 
-## *function* eat
+## Events
 
-BugBunny.eat(_food) `nonpayable` `728d9b74`
+* Consumption(*address* `indexed` feeder, *string* food)
+  `be6b16487b5d077520d7501d2566cbd948bb405c595b2095397662a05d7052fe`
+* Consumption(*address* `indexed` payer, *uint256* amount)
+  `4d03323821b5dfc96a698f2002d64ab816662937a4d5366e851acda40ceb319a`
+* AnonEvent()
+  `anonymous`
 
-**Bug will eat `_food`**
+## Accessors
 
-> Magic funk machine wow.
+* *bytes32* carrotHash() `21ba2aed`
+* *bool* ballerz(*address*, *uint256*) `ba91571b`
 
-Inputs
+## Functions
+
+### eat(*string* food1, *string* food2)
+
+**State mutability**: `nonpayable`
+**Signature hash**: `26fab75d`
+**Notice**: Bug will eat either `food1` or `food2`
+
+Raw stuff.
+
+#### Inputs
+
+| type     | name  | description                    |
+| -------- | ----- | ------------------------------ |
+| *string* | food1 | The name of first food to try  |
+| *string* | food2 | The name of second food to try |
+
+#### Outputs
+
+| type      | name  | description                      |
+| --------- | ----- | -------------------------------- |
+| *bool*    | eaten | true if Bug ate, false otherwise |
+| *bytes32* | hash  | hash of the food eaten           |
+
+### eat(*string* _food)
+
+**State mutability**: `nonpayable`
+**Signature hash**: `728d9b74`
+**Author**: Funk Master
+
+Magic funk machine wow.
+
+#### Inputs
 
 | type     | name  | description               |
 | -------- | ----- | ------------------------- |
 | *string* | _food | The name of a food to eat |
 
-Outputs
+#### Outputs
 
 | type      | name  | description                              |
 | --------- | ----- | ---------------------------------------- |
 | *bool*    | eaten | true if Bug will eat it, false otherwise |
 | *bytes32* | hash  | hash of the food to eat                  |
 
-## *function* doesEat
+### doesEat(*string* _food)
 
-BugBunny.doesEat(_food) `view` `b6520a32`
+**State mutability**: `view`
+**Signature hash**: `b6520a32`
+**Author**: Birb Lampkett
+**Notice**: Determine if Bug will accept `_food` to eat
 
-**Determine if Bug will accept `_food` to eat**
+String comparison may be inefficient
 
-> String comparison may be inefficient
-
-Inputs
+#### Inputs
 
 | type     | name  | description                              |
 | -------- | ----- | ---------------------------------------- |
 | *string* | _food | The name of a food to evaluate (English) |
 
-Outputs
+#### Outputs
 
 | type   | description                              |
 | ------ | ---------------------------------------- |
 | *bool* | true if Bug will eat it, false otherwise |
-
-## *constructor*
-
-BugBunny(carrot) `nonpayable`
-
-Inputs
-
-| type     | name   |
-| -------- | ------ |
-| *string* | carrot |
-
-## *event* Consumption
-
-BugBunny.Consumption(feeder, food) `be6b1648`
-
-Arguments
-
-| type      | name   | indexed     |
-| --------- | ------ | ----------- |
-| *address* | feeder | indexed     |
-| *string*  | food   | not indexed |
-
----
 
 # License
 
