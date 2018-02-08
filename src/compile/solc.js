@@ -1,13 +1,19 @@
 import childProcess from 'child_process';
+import path from 'path';
 
 export default function (src) {
   return new Promise((resolve) => {
-    const exec = `solc --combined-json abi,asm,ast,bin,bin-runtime,clone-bin,devdoc,interface,opcodes,srcmap,srcmap-runtime,userdoc ${src}`;
+    const exec = `solc --allow-paths ./,../, --combined-json abi,asm,ast,bin,bin-runtime,clone-bin,devdoc,interface,opcodes,srcmap,srcmap-runtime,userdoc ${src}`;
     const rawRes = childProcess.execSync(exec);
     const res = JSON.parse(rawRes);
     resolve({
       contracts: Object.keys(res.contracts).reduce((o, k) => {
-        const contractName = k.split(':')[1];
+        const [contractFile, contractName] = k.split(':');
+
+        if (path.resolve(contractFile) !== path.resolve(src)) {
+          return o;
+        }
+
         const contract = res.contracts[k];
         return {
           ...o,
