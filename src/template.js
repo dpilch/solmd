@@ -25,7 +25,6 @@ const template = `
 {{? docItem.inputs.length > 0 }}Inputs
 
 | **type** | **name** | **description** |
-|-|-|-|{{~docItem.inputs :argument}}
 |-|-|-|{{~docItem.inputs :input}}
 | *{{=input.type}}* | {{=input.name}} | {{=input.description}} |{{~}}{{?}}
 {{? docItem.outputs.length > 0 }}
