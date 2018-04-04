@@ -8,11 +8,6 @@ Generate lightweight markdown documentation for Solidity contracts.
 
 ```
 npm install -g solmd
-```
-
-Requires [solc](http://solidity.readthedocs.io/en/develop/installing-solidity.html) to installed in your path.
-
-```
 solmd <src> [--dest <target>]
 ```
 

@@ -45,7 +45,8 @@
   "dependencies": {
     "dot": "^1.1.2",
     "keccakjs": "^0.2.1",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "solc": "^0.4.21"
   },
   "pre-commit": [
     "lint",
