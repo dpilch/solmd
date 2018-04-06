@@ -1,17 +1,15 @@
-# BugBunny
-
-### A simulator for Bug Bunny, the most famous Rabbit
+## A simulator for Bug Bunny, the most famous Rabbit
 
 - **Author**: Warned Bros
 - **Constructor**: BugBunny(*string* `carrot`)
 - This contract has a `payable` fallback function.
 
-## BugBunny Accessors
+## Accessors
 
 * *bytes32* carrotHash() `21ba2aed`
 * *bool* ballerz(*address*, *uint256*) `ba91571b`
 
-## BugBunny Events
+## Events
 
 ### Consumption(*address* indexed `feeder`, *string* `food`)
 
@@ -25,7 +23,7 @@
 
 This event is `anonymous`
 
-## BugBunny Functions
+## Functions
 
 ### eat(*string* `food1`, *string* `food2`)
 
@@ -91,15 +89,13 @@ String comparison may be inefficient
 | ------ | ---------------------------------------- |
 | *bool* | true if Bug will eat it, false otherwise |
 
-# StarWar
-
-### For use the space batle
+## For use the space batle
 
 - **Author**: Jorge Lucaz
 - **Constructor**: StarWar()
 - This contract has a `nonpayable` fallback function.
 
-## StarWar Functions
+## Functions
 
 ### pew(*uint256*)
 
