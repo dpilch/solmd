@@ -2,7 +2,7 @@
 const assert = require('assert');
 const minimist = require('minimist');
 const fs = require('fs');
-const Solmd = require('../lib');
+const Solmd = require('../src');
 const expected = require('./solmd/expected');
 
 describe('solmd', () => {
