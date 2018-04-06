@@ -9,15 +9,12 @@ const methods = {
 };
 
 function populateArguments(passed) {
-  const modified = passed;
-  modified._ = modified._.join(' ');
-
   const defaults = {
     dest: DEFAULT_DEST,
     'no-toc': DEFAULT_NO_TOC,
   };
 
-  return { ...defaults, ...modified };
+  return { ...defaults, ...passed };
 }
 
 const wrappedMethods = {};

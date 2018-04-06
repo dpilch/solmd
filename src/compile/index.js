@@ -22,7 +22,7 @@ function compile({ contracts }) {
 }
 
 export default function (opts) {
-  opts._.split(' ').forEach((file) => {
+  opts._.forEach((file) => {
     if (!fs.existsSync(file)) {
       process.stderr.write(`${file}: No such file or directory
 `);
