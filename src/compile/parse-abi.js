@@ -1,6 +1,7 @@
 import getFunctionSignature from '../helpers';
+import parseOutputs from './parseOutputs';
 
-export default function (contract) {
+export default function parseAbi(contract) {
   return contract.abi.map((method) => {
     const inputParams = method.inputs || [];
     const signature = method.name && `${method.name}(${inputParams.map(i => i.type).join(',')})`;
@@ -13,18 +14,7 @@ export default function (contract) {
     // don't write this
     delete devDocs.params;
 
-    let outputs = [];
-    try {
-      if (typeof devDocs.return !== 'undefined') {
-        const outputParams = JSON.parse(devDocs.return);
-        outputs = method.outputs.map(param => (
-          { ...param, description: outputParams[param.name] }
-        ));
-      }
-    } catch (e) {
-      process.stderr.write(`warning: invalid @return for ${method.name} - output may be effected\n`);
-      outputs = method.outputs; // eslint-disable-line prefer-destructuring
-    }
+    const outputs = parseOutputs({ devDocs, method });
 
     return {
       ...method,
