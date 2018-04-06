@@ -4,9 +4,10 @@ node_js:
 cache:
   directories:
   - node_modules
-
-
-after_success: npm run coverage
+before_script:
+  - "sudo add-apt-repository ppa:ethereum/ethereum -y"
+  - "sudo apt-get update -y"
+  - "sudo apt-get install solc -y"
 
 deploy:
   provider: npm
