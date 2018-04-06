@@ -10,7 +10,7 @@ const template = `
 
 {{? docItem.inputs.length > 0 }}Arguments
 
-| | | |
+| **type** | **name** | **description** |
 |-|-|-|{{~docItem.inputs :argument}}
 | *{{=argument.type}}* | {{=argument.name}} | {{? argument.indexed === false}}not {{?}}indexed |{{~}}{{?}}
 {{?}}{{? docItem.type === 'function'}}
@@ -24,13 +24,13 @@ const template = `
 {{?}}
 {{? docItem.inputs.length > 0 }}Inputs
 
-| | | |
+| **type** | **name** | **description** |
 |-|-|-|{{~docItem.inputs :input}}
 | *{{=input.type}}* | {{=input.name}} | {{=input.description}} |{{~}}{{?}}
 {{? docItem.outputs.length > 0 }}
 Outputs
 
-| | | |
+| **type** | **name** | **description** |
 |-|-|-|{{~docItem.outputs :output}}
 | *{{=output.type}}* | {{=output.name}} | {{=output.description}} |{{~}}{{?}}{{?}}
 {{~}}
