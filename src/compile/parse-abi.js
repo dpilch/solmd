@@ -1,6 +1,6 @@
 import getFunctionSignature from '../helpers';
 
-export default function (contract) {
+export default function parseAbi(contract) {
   return contract.abi.map((method) => {
     const inputParams = method.inputs || [];
     const signature = method.name && `${method.name}(${inputParams.map(i => i.type).join(',')})`;
