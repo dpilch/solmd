@@ -5,7 +5,8 @@ cache:
   directories:
   - node_modules
 
-after_success: npm run coverage
+
+script: npm run coverage
 
 deploy:
   provider: npm
