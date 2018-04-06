@@ -8,9 +8,8 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "$(npm bin)/babel src -w -d lib",
-    "test": "$(npm bin)/mocha",
-    "coverage": "$(npm bin)/nyc",
-    "test-ci": "$(npm bin)/nyc report --reporter=text-lcov | $(npm bin)/coveralls",
+    "test": "$(npm bin)/nyc --reporter=html --reporter=text mocha",
+    "coverage": "$(npm bin)/nyc report --reporter=text-lcov | $(npm bin)/coveralls",
     "build": "rm -rf lib/* && $(npm bin)/babel src -d lib",
     "prepublishOnly": "npm run build",
     "lint": "$(npm bin)/eslint src/ test/",
