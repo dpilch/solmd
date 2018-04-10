@@ -19,6 +19,7 @@ export default function ({ args, data }) {
     });
     // build the table of contents
     if (!args.notoc) {
+      writeStream.write(`# ${data[0].name}\n`);
       writeStream.write(`${data.map(tableOfContents).join('')}\n`);
     }
 

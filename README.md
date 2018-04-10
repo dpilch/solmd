@@ -101,23 +101,24 @@ Return params may either be a single line or formatted as an object as shown abo
 The above example will produce the following result as raw markdown.
 
 ```
+# BugBunny - StarWar
 * [BugBunny](#bugbunny)
   * [Accessors](#bugbunny-accessors)
   * [Events](#bugbunny-events)
-    * [Consumption(*address* indexed `feeder`, *string* `food`)](#consumptionaddress-indexed-feeder-string-food)
-    * [Consumption(*address* indexed `payer`, *uint256* `amount`)](#consumptionaddress-indexed-payer-uint256-amount)
-    * [AnonEvent()](#anonevent)
+    * [Consumption](#consumption-address-indexed-feeder-string-food)(*address* indexed `feeder`, *string* `food`)
+    * [Consumption](#consumption-address-indexed-payer-uint256-amount)(*address* indexed `payer`, *uint256* `amount`)
+    * [AnonEvent](#anonevent)()
   * [Functions](#bugbunny-functions)
-    * [eat(*string* `food1`, *string* `food2`)](#eatstring-food1-string-food2)
-    * [eat(*string* `_food`)](#eatstring-_food)
-    * [doesEat(*string* `_food`)](#doeseatstring-_food)
+    * [eat](#eat-string-food1-string-food2)(*string* `food1`, *string* `food2`)
+    * [eat](#eat-string-_food)(*string* `_food`)
+    * [doesEat](#doeseat-string-_food)(*string* `_food`)
 * [StarWar](#starwar)
   * [Functions](#starwar-functions)
-    * [pew(*uint256*)](#pewuint256)
+    * [pew](#pew-uint256)(*uint256*)
 
 # BugBunny
 
-### A simulator for Bug Bunny, the most famous Rabbit
+## A simulator for Bug Bunny, the most famous Rabbit
 
 - **Author**: Warned Bros
 - **Constructor**: BugBunny(*string* `carrot`)
@@ -210,7 +211,7 @@ String comparison may be inefficient
 
 # StarWar
 
-### For use the space batle
+## For use the space batle
 
 - **Author**: Jorge Lucaz
 - **Constructor**: StarWar()
@@ -238,23 +239,24 @@ String comparison may be inefficient
 
 The same output now parsed:
 
+# BugBunny - StarWar
 * [BugBunny](#bugbunny)
   * [Accessors](#bugbunny-accessors)
   * [Events](#bugbunny-events)
-    * [Consumption(*address* indexed `feeder`, *string* `food`)](#consumptionaddress-indexed-feeder-string-food)
-    * [Consumption(*address* indexed `payer`, *uint256* `amount`)](#consumptionaddress-indexed-payer-uint256-amount)
-    * [AnonEvent()](#anonevent)
+    * [Consumption](#consumption-address-indexed-feeder-string-food)(*address* indexed `feeder`, *string* `food`)
+    * [Consumption](#consumption-address-indexed-payer-uint256-amount)(*address* indexed `payer`, *uint256* `amount`)
+    * [AnonEvent](#anonevent)()
   * [Functions](#bugbunny-functions)
-    * [eat(*string* `food1`, *string* `food2`)](#eatstring-food1-string-food2)
-    * [eat(*string* `_food`)](#eatstring-_food)
-    * [doesEat(*string* `_food`)](#doeseatstring-_food)
+    * [eat](#eat-string-food1-string-food2)(*string* `food1`, *string* `food2`)
+    * [eat](#eat-string-_food)(*string* `_food`)
+    * [doesEat](#doeseat-string-_food)(*string* `_food`)
 * [StarWar](#starwar)
   * [Functions](#starwar-functions)
-    * [pew(*uint256*)](#pewuint256)
+    * [pew](#pew-uint256)(*uint256*)
 
 # BugBunny
 
-### A simulator for Bug Bunny, the most famous Rabbit
+## A simulator for Bug Bunny, the most famous Rabbit
 
 - **Author**: Warned Bros
 - **Constructor**: BugBunny(*string* `carrot`)
@@ -347,7 +349,7 @@ String comparison may be inefficient
 
 # StarWar
 
-### For use the space batle
+## For use the space batle
 
 - **Author**: Jorge Lucaz
 - **Constructor**: StarWar()

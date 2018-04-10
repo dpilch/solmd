@@ -31,18 +31,31 @@ const formatMethod = docItem => `${docItem.name}(${
   }`).join(', ')
 })`;
 
-const formatMethodAnchor = docItem => formatMethod(docItem).toLowerCase().replace(/ /g, '-').replace(/[^-\w]+/g, '');
+const formatMethodWithoutName = docItem => `(${
+  docItem.inputs.map(({ type, indexed, name }) => `*${type}*${
+    indexed ? ' indexed' : ''
+  }${
+    name ? ` \`${name}\`` : ''
+  }`).join(', ')
+})`;
+
+
+const formatMethodAnchor = docItem => formatMethod(docItem).toLowerCase()
+  .replace(/\(\)/g, '')
+  .replace(/\(/g, '-')
+  .replace(/ /g, '-')
+  .replace(/[^-\w]+/g, '');
 
 export const tableOfContents = (it) => {
-  const cNameLower = it.name.toLowerCase();
+  // const cNameLower = it.name.toLowerCase();
   const eventsDocs = it.abiDocs.filter(({ type }) => type === 'event');
   const functionDocs = it.abiDocs.filter(docItem => docItem.type === 'function' && !isAccessor(docItem));
   return `* [${it.name}](#${it.name.toLowerCase()})
-${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#${cNameLower}-accessors)
-` : ''}${eventsDocs.length > 0 ? `  * [Events](#${cNameLower}-events)
-${eventsDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
-` : ''}${functionDocs.length > 0 ? `  * [Functions](#${cNameLower}-functions)
-${functionDocs.map(docItem => `    * [${formatMethod(docItem)}](#${formatMethodAnchor(docItem)})`).join('\n')}
+${it.abiDocs.some(docItem => docItem.type === 'function' && isAccessor(docItem)) ? `  * [Accessors](#accessors)
+` : ''}${eventsDocs.length > 0 ? `  * [Events](#events)
+${eventsDocs.map(docItem => `    * [${docItem.name}](#${formatMethodAnchor(docItem)})${formatMethodWithoutName(docItem)}`).join('\n')}
+` : ''}${functionDocs.length > 0 ? `  * [Functions](#functions)
+${functionDocs.map(docItem => `    * [${docItem.name}](#${formatMethodAnchor(docItem)})${formatMethodWithoutName(docItem)}`).join('\n')}
 ` : ''}`;
 };
 
@@ -68,7 +81,7 @@ const accessorsSection = (it) => {
   if (accessorDocs.length === 0) return '';
 
   return `
-## ${it.name} Accessors
+## Accessors
 
 ${accessorDocs.map(docItem => `* *${docItem.outputs[0].type}* ${formatMethod(docItem)} \`${docItem.signatureHash}\``).join('\n')}
 `;
@@ -79,7 +92,7 @@ const eventsSection = (it) => {
   if (eventsDocs.length === 0) return '';
 
   return `
-## ${it.name} Events
+## Events
 
 ${eventsDocs.map(docItem => `### ${formatMethod(docItem)}
 
@@ -95,7 +108,7 @@ const functionsSection = (it) => {
   if (functionDocs.length === 0) return '';
 
   return `
-## ${it.name} Functions
+## Functions
 
 ${functionDocs.map(docItem =>
     `### ${formatMethod(docItem)}
@@ -119,9 +132,7 @@ ${formatTable(docItem.outputs)}
 ` : ''}`).join('\n')}`;
 };
 
-export const template = it => `# ${it.name}
-
-${it.title ? `### ${it.title}
+export const template = it => `${it.title ? `## ${it.title}
 
 ` : ''}${it.author ? `- **Author**: ${it.author}
 ` : ''}${
