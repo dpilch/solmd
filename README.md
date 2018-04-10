@@ -2,12 +2,22 @@
 
 Generate lightweight markdown documentation for Solidity contracts.
 
+### Warning: this is not directly compatible with Github Pages as of #c8e8f93fb85fd499e057c79ab40d7d0d873b7ce7. The Github Pages compatible version is at #3215b0298faa40fb5c5d799d78d18e57270bb372
+
 [![Build Status](https://travis-ci.org/dpilch/solmd.svg?branch=master)](https://travis-ci.org/dpilch/solmd)
 
 ## Installation
 
+For the latest version meant to be used with Read the Docs through pandoc:
+
 ```
-npm install -g https://github.com/cag/solmd.git
+npm install -g cag/solmd
+```
+
+For a previous version which is Github Pages compatible:
+
+```
+npm install -g cag/solmd#3215b0298faa40fb5c5d799d78d18e57270bb372
 ```
 
 Requires [solc](http://solidity.readthedocs.io/en/develop/installing-solidity.html) to installed in your path.
