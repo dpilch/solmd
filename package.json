@@ -1,6 +1,6 @@
 {
   "name": "solmd",
-  "version": "0.2.2",
+  "version": "0.2.1",
   "description": "Markdown documentation generator for Solidity",
   "engines": {
     "node": ">=4"
@@ -40,12 +40,12 @@
     "chai": "^4.1.2",
     "chai-string": "^1.4.0",
     "coveralls": "^3.0.0",
-    "eslint": "^4.19.1",
+    "eslint": "^4.11.0",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0",
-    "mocha": "^4.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "mocha": "^4.0.1",
     "nyc": "^11.6.0",
     "pre-commit": "^1.2.2",
     "sinon": "^4.5.0"
@@ -54,7 +54,7 @@
     "dot": "^1.1.2",
     "keccakjs": "^0.2.1",
     "minimist": "^1.2.0",
-    "solc": "^0.4.23"
+    "solc": "^0.4.21"
   },
   "pre-commit": [
     "lint",
