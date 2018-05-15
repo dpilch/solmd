@@ -1,14 +1,14 @@
 {
   "name": "solmd",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Markdown documentation generator for Solidity",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "main": "lib/index.js",
   "scripts": {
     "dev": "$(npm bin)/babel src -w -d lib",
-    "test": "$(npm bin)/nyc --reporter=html --reporter=text mocha --require babel-core/register --require babel-polyfill",
+    "test": "$(npm bin)/nyc --reporter=html --reporter=text mocha --require @babel/register --require @babel/polyfill",
     "coverage": "$(npm bin)/nyc report --reporter=text-lcov | $(npm bin)/coveralls",
     "build": "rm -rf lib/* && $(npm bin)/babel src -d lib",
     "prepublishOnly": "npm run build",
@@ -32,23 +32,24 @@
   "author": "Dane Pilcher <danepilch@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
+    "@babel/cli": "^7.0.0-beta.46",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/polyfill": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/preset-stage-2": "^7.0.0-beta.46",
+    "@babel/register": "^7.0.0-beta.46",
     "chai": "^4.1.2",
     "chai-string": "^1.4.0",
-    "coveralls": "^3.0.0",
+    "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0",
-    "mocha": "^4.1.0",
-    "nyc": "^11.6.0",
+    "eslint-plugin-react": "^7.8.0",
+    "mocha": "^5.1.1",
+    "nyc": "^11.7.3",
     "pre-commit": "^1.2.2",
-    "sinon": "^4.5.0"
+    "sinon": "^5.0.7"
   },
   "dependencies": {
     "dot": "^1.1.2",
