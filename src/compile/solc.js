@@ -6,12 +6,14 @@ function findImports(path) {
   return { contents: output.toString() };
 }
 
-export default function (src) {
+export default function (srcs) {
   return new Promise((resolve) => {
     const sources = {};
-    sources[src] = {
-      urls: [`file://${src}`],
-    };
+    for (let src of srcs) {
+      sources[src] = {
+        urls: [`file://${src}`]
+      };
+    }
     const output = solc.compileStandardWrapper(JSON.stringify({
       language: 'Solidity',
       sources,
