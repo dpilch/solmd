@@ -1,4 +1,4 @@
-pragma solidity ^0.4.13;
+pragma solidity >=0.4.22 <0.6.0;
 
 
 // natspec example
@@ -11,7 +11,7 @@ contract GavCoin {
     address owner;
     uint exchangeRate;
 
-    function GavCoin() public {
+    constructor() public {
         owner = msg.sender;
     }
 
