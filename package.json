@@ -13,7 +13,7 @@
     "build": "rm -rf lib/* && $(npm bin)/babel src -d lib",
     "prepublishOnly": "npm run build",
     "lint": "$(npm bin)/eslint src/ test/",
-    "precommit": "./node_modules/pre-commit/hook"
+    "precommit": "npm run lint && npm run test"
   },
   "bin": {
     "solmd": "./lib/bin/solmd.js"
@@ -42,6 +42,8 @@
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.1",
     "@babel/register": "^7.4.0",
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-conventional": "^7.5.0",
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
     "coveralls": "^3.0.3",
@@ -50,9 +52,9 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "husky": "^1.3.1",
     "mocha": "^6.0.2",
     "nyc": "^13.3.0",
-    "pre-commit": "^1.2.2",
     "sinon": "^7.2.7"
   },
   "dependencies": {
@@ -67,8 +69,10 @@
     "LICENSE",
     "lib/"
   ],
-  "pre-commit": [
-    "lint",
-    "test"
-  ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit",
+      "commit-msg": "commitlint -e"
+    }
+  }
 }
