@@ -1,12 +1,15 @@
 {
   "presets": [
-    ["@babel/preset-env", {
-      "targets": {
-        "node": "6.10"
-      }
-    }],
-    ["@babel/preset-stage-2", {
-      "decoratorsLegacy": true,
-    }]
+    [
+      "@babel/preset-env"
+    ]
+  ],
+  "plugins": [
+    // Stage 2
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-numeric-separator",
+    "@babel/plugin-proposal-throw-expressions"
   ]
 }
