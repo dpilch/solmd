@@ -1,6 +1,6 @@
 {
   "name": "solmd",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Markdown documentation generator for Solidity",
   "engines": {
     "node": ">=6"
@@ -61,6 +61,12 @@
     "minimist": "^1.2.0",
     "solc": "^0.5.6"
   },
+  "files": [
+    "package.json",
+    "package-lock.json",
+    "LICENSE",
+    "lib/"
+  ],
   "pre-commit": [
     "lint",
     "test"
