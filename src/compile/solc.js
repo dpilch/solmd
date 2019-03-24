@@ -2,7 +2,15 @@ import fs from 'fs';
 import solc from 'solc';
 
 function findImports(path) {
-  const output = fs.readFileSync(path.replace('file://', ''));
+  let output = '';
+  const relPath = path.replace('file://', '');
+
+  if (fs.existsSync(relPath) == true) {
+    output = fs.readFileSync(relPath);
+  } else {
+    output = fs.readFileSync('node_modules/' + relPath);
+  }
+
   return { contents: output.toString() };
 }
 
