@@ -3,6 +3,7 @@
 Generate lightweight markdown documentation for Solidity contracts.
 
 [![Build Status](https://travis-ci.org/dpilch/solmd.svg?branch=master)](https://travis-ci.org/dpilch/solmd)
+[![Coverage Status](https://coveralls.io/repos/github/dpilch/solmd/badge.svg)](https://coveralls.io/github/dpilch/solmd)
 
 ## Installation
 
