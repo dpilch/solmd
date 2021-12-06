@@ -1,3 +1,5 @@
+# Deprecated
+
 # solmd
 
 Generate lightweight markdown documentation for Solidity contracts.
